@@ -22,11 +22,11 @@ function main() {
 
     // Clear the color buffer with specified clear color
     gl.clear(gl.COLOR_BUFFER_BIT);
-    
+
     /**
      * Vertex shader program source code.
      * @type {String}
-     */ 
+     */
     const vsSource = `
     attribute vec4 aVertexPosition;
 
@@ -37,12 +37,12 @@ function main() {
         gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
     }
     `;
-    
+
     /**
      * Fragment shader program source code.
      * @type {String}
-     */ 
-    const fsSource  = `
+     */
+    const fsSource = `
     void main() {
       gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
     }
@@ -56,13 +56,13 @@ function main() {
     const programInfo = {
         program: shaderProgram,
         attribLocations: {
-          vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+            vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
         },
         uniformLocations: {
-          projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-          modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+            modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
         },
-      };
+    };
 }
 
 /**
@@ -90,7 +90,7 @@ function initShaderProgram(gl, vsSource, fsSource) {
 
     // Attatch the vertex shader to the shader program.
     gl.attachShader(shaderProgram, vertexShader);
-    
+
     // Attatch the fragment shader to the shader program.
     gl.attachShader(shaderProgram, fragmentShader);
 
@@ -133,6 +133,40 @@ function loadShader(gl, type, source) {
     }
 
     return shader;
+}
+
+/**
+ * Create buffer.
+ * @param {WebGLRenderingContext} gl WebGL rendering context.
+ * @returns { {position: WebGLBuffer} } Complex object.
+ */
+function initBuffers(gl) {
+
+    /**
+     * Create a buffer into which to store the vertex positions.
+     * @type {WebGLBuffer} WebGL buffer.
+     */
+    const positionBuffer = gl.createBuffer();
+
+    // Select the positionBuffer as the one to apply buffer operations to from here out.
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    // Now create an array of positions for the square.
+    const positions = [
+        -1.0, 1.0,
+        1.0, 1.0,
+        -1.0, -1.0,
+        1.0, -1.0,
+    ];
+
+    // Now pass the list of positions into WebGL to build the shape. We do this by creating a Float32Array from the JavaScript array, then use it to fill the current buffer.
+    gl.bufferData(gl.ARRAY_BUFFER,
+        new Float32Array(positions),
+        gl.STATIC_DRAW);
+
+    return {
+        position: positionBuffer,
+    };
 }
 
 window.onload = main;
