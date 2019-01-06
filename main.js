@@ -3,12 +3,12 @@
  */
 function main() {
     /**
-     * @type {HTMLCanvasElement}
+     * @type {HTMLCanvasElement} HTML canvas element
      */
     const canvas = document.querySelector("#mainCanvas");
 
     /**
-     * @type {WebGLRenderingContext}
+     * @type {WebGLRenderingContext} WebGL rendering context.
      */
     const gl = canvas.getContext("webgl");
 
@@ -22,13 +22,43 @@ function main() {
 
     // Clear the color buffer with specified clear color
     gl.clear(gl.COLOR_BUFFER_BIT);
+    
+    /**
+     * Vertex shader program source code.
+     * @type {String}
+     */ 
+    const vsSource = `
+    attribute vec4 aVertexPosition;
+
+    uniform mat4 uModelViewMatrix;
+    uniform mat4 uProjectionMatrix;
+
+    void main() {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    }
+    `;
+    
+    /**
+     * Fragment shader program source code.
+     * @type {String}
+     */ 
+    const fsSource  = `
+    void main() {
+      gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+    `;
+
+    /**
+     * @type {WebGLProgram} WebGL program.
+     */
+    const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
 }
 
 /**
  * Initialize a shader program, so WebGL knows how to draw our data.
  * @param {WebGLRenderingContext} gl WebGL rendering context.
- * @param {String} vsSource Vertex shader program.
- * @param {String} fsSource Fragment shader program.
+ * @param {String} vsSource Vertex shader program source code.
+ * @param {String} fsSource Fragment shader program source code.
  * @returns {WebGLProgram} WebGL program.
  */
 function initShaderProgram(gl, vsSource, fsSource) {
@@ -69,7 +99,7 @@ function initShaderProgram(gl, vsSource, fsSource) {
  * Creates a shader of the given type, uploads the source and compiles it.
  * @param {WebGLRenderingContext} gl WebGL rendering context.
  * @param {Number} type Shader type to load.
- * @param {String} source Shader program.
+ * @param {String} source Shader program source code.
  * @returns {WebGLShader} WebGL shader.
  */
 function loadShader(gl, type, source) {
@@ -78,7 +108,7 @@ function loadShader(gl, type, source) {
      */
     const shader = gl.createShader(type);
 
-    // Send the source to the shader object
+    // Send the source code to the shader object
     gl.shaderSource(shader, source);
 
     // Compile the shader program
