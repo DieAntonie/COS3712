@@ -26,11 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.glMatrix = {})));
-}(this, (function (exports) { 'use strict';
+  'use strict';
 
   /**
    * Common utilities
@@ -75,7 +71,7 @@ THE SOFTWARE.
 
   var common = /*#__PURE__*/Object.freeze({
     EPSILON: EPSILON,
-    get ARRAY_TYPE () { return ARRAY_TYPE; },
+    get ARRAY_TYPE() { return ARRAY_TYPE; },
     RANDOM: RANDOM,
     setMatrixArrayType: setMatrixArrayType,
     toRadian: toRadian,
@@ -219,9 +215,9 @@ THE SOFTWARE.
 
   function invert(out, a) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3]; // Calculate the determinant
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3]; // Calculate the determinant
 
     var det = a0 * a3 - a2 * a1;
 
@@ -274,13 +270,13 @@ THE SOFTWARE.
 
   function multiply(out, a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3];
     out[0] = a0 * b0 + a2 * b1;
     out[1] = a1 * b0 + a3 * b1;
     out[2] = a0 * b2 + a2 * b3;
@@ -298,9 +294,9 @@ THE SOFTWARE.
 
   function rotate(out, a, rad) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3];
     var s = Math.sin(rad);
     var c = Math.cos(rad);
     out[0] = a0 * c + a2 * s;
@@ -320,11 +316,11 @@ THE SOFTWARE.
 
   function scale(out, a, v) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3];
     var v0 = v[0],
-        v1 = v[1];
+      v1 = v[1];
     out[0] = a0 * v0;
     out[1] = a1 * v0;
     out[2] = a2 * v1;
@@ -459,13 +455,13 @@ THE SOFTWARE.
 
   function equals$1(a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3));
   }
   /**
@@ -686,11 +682,11 @@ THE SOFTWARE.
 
   function invert$1(out, a) {
     var aa = a[0],
-        ab = a[1],
-        ac = a[2],
-        ad = a[3];
+      ab = a[1],
+      ac = a[2],
+      ad = a[3];
     var atx = a[4],
-        aty = a[5];
+      aty = a[5];
     var det = aa * ad - ab * ac;
 
     if (!det) {
@@ -727,17 +723,17 @@ THE SOFTWARE.
 
   function multiply$1(out, a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3],
-        a4 = a[4],
-        a5 = a[5];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3],
+      a4 = a[4],
+      a5 = a[5];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3],
-        b4 = b[4],
-        b5 = b[5];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3],
+      b4 = b[4],
+      b5 = b[5];
     out[0] = a0 * b0 + a2 * b1;
     out[1] = a1 * b0 + a3 * b1;
     out[2] = a0 * b2 + a2 * b3;
@@ -757,11 +753,11 @@ THE SOFTWARE.
 
   function rotate$1(out, a, rad) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3],
-        a4 = a[4],
-        a5 = a[5];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3],
+      a4 = a[4],
+      a5 = a[5];
     var s = Math.sin(rad);
     var c = Math.cos(rad);
     out[0] = a0 * c + a2 * s;
@@ -783,13 +779,13 @@ THE SOFTWARE.
 
   function scale$1(out, a, v) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3],
-        a4 = a[4],
-        a5 = a[5];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3],
+      a4 = a[4],
+      a5 = a[5];
     var v0 = v[0],
-        v1 = v[1];
+      v1 = v[1];
     out[0] = a0 * v0;
     out[1] = a1 * v0;
     out[2] = a2 * v1;
@@ -809,13 +805,13 @@ THE SOFTWARE.
 
   function translate(out, a, v) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3],
-        a4 = a[4],
-        a5 = a[5];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3],
+      a4 = a[4],
+      a5 = a[5];
     var v0 = v[0],
-        v1 = v[1];
+      v1 = v[1];
     out[0] = a0;
     out[1] = a1;
     out[2] = a2;
@@ -838,7 +834,7 @@ THE SOFTWARE.
 
   function fromRotation$1(out, rad) {
     var s = Math.sin(rad),
-        c = Math.cos(rad);
+      c = Math.cos(rad);
     out[0] = c;
     out[1] = s;
     out[2] = -s;
@@ -1003,17 +999,17 @@ THE SOFTWARE.
 
   function equals$2(a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3],
-        a4 = a[4],
-        a5 = a[5];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3],
+      a4 = a[4],
+      a5 = a[5];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3],
-        b4 = b[4],
-        b5 = b[5];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3],
+      b4 = b[4],
+      b5 = b[5];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= EPSILON * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= EPSILON * Math.max(1.0, Math.abs(a5), Math.abs(b5));
   }
   /**
@@ -1232,8 +1228,8 @@ THE SOFTWARE.
     // If we are transposing ourselves we can skip a few steps but have to cache some values
     if (out === a) {
       var a01 = a[1],
-          a02 = a[2],
-          a12 = a[5];
+        a02 = a[2],
+        a12 = a[5];
       out[1] = a[3];
       out[2] = a[6];
       out[3] = a01;
@@ -1264,14 +1260,14 @@ THE SOFTWARE.
 
   function invert$2(out, a) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2];
+      a01 = a[1],
+      a02 = a[2];
     var a10 = a[3],
-        a11 = a[4],
-        a12 = a[5];
+      a11 = a[4],
+      a12 = a[5];
     var a20 = a[6],
-        a21 = a[7],
-        a22 = a[8];
+      a21 = a[7],
+      a22 = a[8];
     var b01 = a22 * a11 - a12 * a21;
     var b11 = -a22 * a10 + a12 * a20;
     var b21 = a21 * a10 - a11 * a20; // Calculate the determinant
@@ -1304,14 +1300,14 @@ THE SOFTWARE.
 
   function adjoint$1(out, a) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2];
+      a01 = a[1],
+      a02 = a[2];
     var a10 = a[3],
-        a11 = a[4],
-        a12 = a[5];
+      a11 = a[4],
+      a12 = a[5];
     var a20 = a[6],
-        a21 = a[7],
-        a22 = a[8];
+      a21 = a[7],
+      a22 = a[8];
     out[0] = a11 * a22 - a12 * a21;
     out[1] = a02 * a21 - a01 * a22;
     out[2] = a01 * a12 - a02 * a11;
@@ -1332,14 +1328,14 @@ THE SOFTWARE.
 
   function determinant$2(a) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2];
+      a01 = a[1],
+      a02 = a[2];
     var a10 = a[3],
-        a11 = a[4],
-        a12 = a[5];
+      a11 = a[4],
+      a12 = a[5];
     var a20 = a[6],
-        a21 = a[7],
-        a22 = a[8];
+      a21 = a[7],
+      a22 = a[8];
     return a00 * (a22 * a11 - a12 * a21) + a01 * (-a22 * a10 + a12 * a20) + a02 * (a21 * a10 - a11 * a20);
   }
   /**
@@ -1353,23 +1349,23 @@ THE SOFTWARE.
 
   function multiply$2(out, a, b) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2];
+      a01 = a[1],
+      a02 = a[2];
     var a10 = a[3],
-        a11 = a[4],
-        a12 = a[5];
+      a11 = a[4],
+      a12 = a[5];
     var a20 = a[6],
-        a21 = a[7],
-        a22 = a[8];
+      a21 = a[7],
+      a22 = a[8];
     var b00 = b[0],
-        b01 = b[1],
-        b02 = b[2];
+      b01 = b[1],
+      b02 = b[2];
     var b10 = b[3],
-        b11 = b[4],
-        b12 = b[5];
+      b11 = b[4],
+      b12 = b[5];
     var b20 = b[6],
-        b21 = b[7],
-        b22 = b[8];
+      b21 = b[7],
+      b22 = b[8];
     out[0] = b00 * a00 + b01 * a10 + b02 * a20;
     out[1] = b00 * a01 + b01 * a11 + b02 * a21;
     out[2] = b00 * a02 + b01 * a12 + b02 * a22;
@@ -1392,16 +1388,16 @@ THE SOFTWARE.
 
   function translate$1(out, a, v) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a10 = a[3],
-        a11 = a[4],
-        a12 = a[5],
-        a20 = a[6],
-        a21 = a[7],
-        a22 = a[8],
-        x = v[0],
-        y = v[1];
+      a01 = a[1],
+      a02 = a[2],
+      a10 = a[3],
+      a11 = a[4],
+      a12 = a[5],
+      a20 = a[6],
+      a21 = a[7],
+      a22 = a[8],
+      x = v[0],
+      y = v[1];
     out[0] = a00;
     out[1] = a01;
     out[2] = a02;
@@ -1424,16 +1420,16 @@ THE SOFTWARE.
 
   function rotate$2(out, a, rad) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a10 = a[3],
-        a11 = a[4],
-        a12 = a[5],
-        a20 = a[6],
-        a21 = a[7],
-        a22 = a[8],
-        s = Math.sin(rad),
-        c = Math.cos(rad);
+      a01 = a[1],
+      a02 = a[2],
+      a10 = a[3],
+      a11 = a[4],
+      a12 = a[5],
+      a20 = a[6],
+      a21 = a[7],
+      a22 = a[8],
+      s = Math.sin(rad),
+      c = Math.cos(rad);
     out[0] = c * a00 + s * a10;
     out[1] = c * a01 + s * a11;
     out[2] = c * a02 + s * a12;
@@ -1456,7 +1452,7 @@ THE SOFTWARE.
 
   function scale$2(out, a, v) {
     var x = v[0],
-        y = v[1];
+      y = v[1];
     out[0] = x * a[0];
     out[1] = x * a[1];
     out[2] = x * a[2];
@@ -1506,7 +1502,7 @@ THE SOFTWARE.
 
   function fromRotation$2(out, rad) {
     var s = Math.sin(rad),
-        c = Math.cos(rad);
+      c = Math.cos(rad);
     out[0] = c;
     out[1] = s;
     out[2] = 0;
@@ -1573,9 +1569,9 @@ THE SOFTWARE.
 
   function fromQuat(out, q) {
     var x = q[0],
-        y = q[1],
-        z = q[2],
-        w = q[3];
+      y = q[1],
+      z = q[2],
+      w = q[3];
     var x2 = x + x;
     var y2 = y + y;
     var z2 = z + z;
@@ -1610,21 +1606,21 @@ THE SOFTWARE.
 
   function normalFromMat4(out, a) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3];
+      a01 = a[1],
+      a02 = a[2],
+      a03 = a[3];
     var a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7];
+      a11 = a[5],
+      a12 = a[6],
+      a13 = a[7];
     var a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
+      a21 = a[9],
+      a22 = a[10],
+      a23 = a[11];
     var a30 = a[12],
-        a31 = a[13],
-        a32 = a[14],
-        a33 = a[15];
+      a31 = a[13],
+      a32 = a[14],
+      a33 = a[15];
     var b00 = a00 * a11 - a01 * a10;
     var b01 = a00 * a12 - a02 * a10;
     var b02 = a00 * a13 - a03 * a10;
@@ -1803,23 +1799,23 @@ THE SOFTWARE.
 
   function equals$3(a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3],
-        a4 = a[4],
-        a5 = a[5],
-        a6 = a[6],
-        a7 = a[7],
-        a8 = a[8];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3],
+      a4 = a[4],
+      a5 = a[5],
+      a6 = a[6],
+      a7 = a[7],
+      a8 = a[8];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3],
-        b4 = b[4],
-        b5 = b[5],
-        b6 = b[6],
-        b7 = b[7],
-        b8 = b[8];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3],
+      b4 = b[4],
+      b5 = b[5],
+      b6 = b[6],
+      b7 = b[7],
+      b8 = b[8];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= EPSILON * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= EPSILON * Math.max(1.0, Math.abs(a5), Math.abs(b5)) && Math.abs(a6 - b6) <= EPSILON * Math.max(1.0, Math.abs(a6), Math.abs(b6)) && Math.abs(a7 - b7) <= EPSILON * Math.max(1.0, Math.abs(a7), Math.abs(b7)) && Math.abs(a8 - b8) <= EPSILON * Math.max(1.0, Math.abs(a8), Math.abs(b8));
   }
   /**
@@ -2081,10 +2077,10 @@ THE SOFTWARE.
     // If we are transposing ourselves we can skip a few steps but have to cache some values
     if (out === a) {
       var a01 = a[1],
-          a02 = a[2],
-          a03 = a[3];
+        a02 = a[2],
+        a03 = a[3];
       var a12 = a[6],
-          a13 = a[7];
+        a13 = a[7];
       var a23 = a[11];
       out[1] = a[4];
       out[2] = a[8];
@@ -2129,21 +2125,21 @@ THE SOFTWARE.
 
   function invert$3(out, a) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3];
+      a01 = a[1],
+      a02 = a[2],
+      a03 = a[3];
     var a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7];
+      a11 = a[5],
+      a12 = a[6],
+      a13 = a[7];
     var a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
+      a21 = a[9],
+      a22 = a[10],
+      a23 = a[11];
     var a30 = a[12],
-        a31 = a[13],
-        a32 = a[14],
-        a33 = a[15];
+      a31 = a[13],
+      a32 = a[14],
+      a33 = a[15];
     var b00 = a00 * a11 - a01 * a10;
     var b01 = a00 * a12 - a02 * a10;
     var b02 = a00 * a13 - a03 * a10;
@@ -2192,21 +2188,21 @@ THE SOFTWARE.
 
   function adjoint$2(out, a) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3];
+      a01 = a[1],
+      a02 = a[2],
+      a03 = a[3];
     var a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7];
+      a11 = a[5],
+      a12 = a[6],
+      a13 = a[7];
     var a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
+      a21 = a[9],
+      a22 = a[10],
+      a23 = a[11];
     var a30 = a[12],
-        a31 = a[13],
-        a32 = a[14],
-        a33 = a[15];
+      a31 = a[13],
+      a32 = a[14],
+      a33 = a[15];
     out[0] = a11 * (a22 * a33 - a23 * a32) - a21 * (a12 * a33 - a13 * a32) + a31 * (a12 * a23 - a13 * a22);
     out[1] = -(a01 * (a22 * a33 - a23 * a32) - a21 * (a02 * a33 - a03 * a32) + a31 * (a02 * a23 - a03 * a22));
     out[2] = a01 * (a12 * a33 - a13 * a32) - a11 * (a02 * a33 - a03 * a32) + a31 * (a02 * a13 - a03 * a12);
@@ -2234,21 +2230,21 @@ THE SOFTWARE.
 
   function determinant$3(a) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3];
+      a01 = a[1],
+      a02 = a[2],
+      a03 = a[3];
     var a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7];
+      a11 = a[5],
+      a12 = a[6],
+      a13 = a[7];
     var a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
+      a21 = a[9],
+      a22 = a[10],
+      a23 = a[11];
     var a30 = a[12],
-        a31 = a[13],
-        a32 = a[14],
-        a33 = a[15];
+      a31 = a[13],
+      a32 = a[14],
+      a33 = a[15];
     var b00 = a00 * a11 - a01 * a10;
     var b01 = a00 * a12 - a02 * a10;
     var b02 = a00 * a13 - a03 * a10;
@@ -2275,26 +2271,26 @@ THE SOFTWARE.
 
   function multiply$3(out, a, b) {
     var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3];
+      a01 = a[1],
+      a02 = a[2],
+      a03 = a[3];
     var a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7];
+      a11 = a[5],
+      a12 = a[6],
+      a13 = a[7];
     var a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
+      a21 = a[9],
+      a22 = a[10],
+      a23 = a[11];
     var a30 = a[12],
-        a31 = a[13],
-        a32 = a[14],
-        a33 = a[15]; // Cache only the current line of the second matrix
+      a31 = a[13],
+      a32 = a[14],
+      a33 = a[15]; // Cache only the current line of the second matrix
 
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3];
     out[0] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
     out[1] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
     out[2] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
@@ -2336,8 +2332,8 @@ THE SOFTWARE.
 
   function translate$2(out, a, v) {
     var x = v[0],
-        y = v[1],
-        z = v[2];
+      y = v[1],
+      z = v[2];
     var a00, a01, a02, a03;
     var a10, a11, a12, a13;
     var a20, a21, a22, a23;
@@ -2391,8 +2387,8 @@ THE SOFTWARE.
 
   function scale$3(out, a, v) {
     var x = v[0],
-        y = v[1],
-        z = v[2];
+      y = v[1],
+      z = v[2];
     out[0] = a[0] * x;
     out[1] = a[1] * x;
     out[2] = a[2] * x;
@@ -2423,8 +2419,8 @@ THE SOFTWARE.
 
   function rotate$3(out, a, rad, axis) {
     var x = axis[0],
-        y = axis[1],
-        z = axis[2];
+      y = axis[1],
+      z = axis[2];
     var len = Math.sqrt(x * x + y * y + z * z);
     var s, c, t;
     var a00, a01, a02, a03;
@@ -2700,8 +2696,8 @@ THE SOFTWARE.
 
   function fromRotation$3(out, rad, axis) {
     var x = axis[0],
-        y = axis[1],
-        z = axis[2];
+      y = axis[1],
+      z = axis[2];
     var len = Math.sqrt(x * x + y * y + z * z);
     var s, c, t;
 
@@ -2856,9 +2852,9 @@ THE SOFTWARE.
   function fromRotationTranslation(out, q, v) {
     // Quaternion math
     var x = q[0],
-        y = q[1],
-        z = q[2],
-        w = q[3];
+      y = q[1],
+      z = q[2],
+      w = q[3];
     var x2 = x + x;
     var y2 = y + y;
     var z2 = z + z;
@@ -2900,13 +2896,13 @@ THE SOFTWARE.
   function fromQuat2(out, a) {
     var translation = new ARRAY_TYPE(3);
     var bx = -a[0],
-        by = -a[1],
-        bz = -a[2],
-        bw = a[3],
-        ax = a[4],
-        ay = a[5],
-        az = a[6],
-        aw = a[7];
+      by = -a[1],
+      bz = -a[2],
+      bw = a[3],
+      ax = a[4],
+      ay = a[5],
+      az = a[6],
+      aw = a[7];
     var magnitude = bx * bx + by * by + bz * bz + bw * bw; //Only scale if it makes sense
 
     if (magnitude > 0) {
@@ -3028,9 +3024,9 @@ THE SOFTWARE.
   function fromRotationTranslationScale(out, q, v, s) {
     // Quaternion math
     var x = q[0],
-        y = q[1],
-        z = q[2],
-        w = q[3];
+      y = q[1],
+      z = q[2],
+      w = q[3];
     var x2 = x + x;
     var y2 = y + y;
     var z2 = z + z;
@@ -3088,9 +3084,9 @@ THE SOFTWARE.
   function fromRotationTranslationScaleOrigin(out, q, v, s, o) {
     // Quaternion math
     var x = q[0],
-        y = q[1],
-        z = q[2],
-        w = q[3];
+      y = q[1],
+      z = q[2],
+      w = q[3];
     var x2 = x + x;
     var y2 = y + y;
     var z2 = z + z;
@@ -3147,9 +3143,9 @@ THE SOFTWARE.
 
   function fromQuat$1(out, q) {
     var x = q[0],
-        y = q[1],
-        z = q[2],
-        w = q[3];
+      y = q[1],
+      z = q[2],
+      w = q[3];
     var x2 = x + x;
     var y2 = y + y;
     var z2 = z + z;
@@ -3229,7 +3225,7 @@ THE SOFTWARE.
 
   function perspective(out, fovy, aspect, near, far) {
     var f = 1.0 / Math.tan(fovy / 2),
-        nf;
+      nf;
     out[0] = f / aspect;
     out[1] = 0;
     out[2] = 0;
@@ -3424,14 +3420,14 @@ THE SOFTWARE.
 
   function targetTo(out, eye, target, up) {
     var eyex = eye[0],
-        eyey = eye[1],
-        eyez = eye[2],
-        upx = up[0],
-        upy = up[1],
-        upz = up[2];
+      eyey = eye[1],
+      eyez = eye[2],
+      upx = up[0],
+      upy = up[1],
+      upz = up[2];
     var z0 = eyex - target[0],
-        z1 = eyey - target[1],
-        z2 = eyez - target[2];
+      z1 = eyey - target[1],
+      z2 = eyez - target[2];
     var len = z0 * z0 + z1 * z1 + z2 * z2;
 
     if (len > 0) {
@@ -3442,8 +3438,8 @@ THE SOFTWARE.
     }
 
     var x0 = upy * z2 - upz * z1,
-        x1 = upz * z0 - upx * z2,
-        x2 = upx * z1 - upy * z0;
+      x1 = upz * z0 - upx * z2,
+      x2 = upx * z1 - upy * z0;
     len = x0 * x0 + x1 * x1 + x2 * x2;
 
     if (len > 0) {
@@ -3625,37 +3621,37 @@ THE SOFTWARE.
 
   function equals$4(a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3];
     var a4 = a[4],
-        a5 = a[5],
-        a6 = a[6],
-        a7 = a[7];
+      a5 = a[5],
+      a6 = a[6],
+      a7 = a[7];
     var a8 = a[8],
-        a9 = a[9],
-        a10 = a[10],
-        a11 = a[11];
+      a9 = a[9],
+      a10 = a[10],
+      a11 = a[11];
     var a12 = a[12],
-        a13 = a[13],
-        a14 = a[14],
-        a15 = a[15];
+      a13 = a[13],
+      a14 = a[14],
+      a15 = a[15];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3];
     var b4 = b[4],
-        b5 = b[5],
-        b6 = b[6],
-        b7 = b[7];
+      b5 = b[5],
+      b6 = b[6],
+      b7 = b[7];
     var b8 = b[8],
-        b9 = b[9],
-        b10 = b[10],
-        b11 = b[11];
+      b9 = b[9],
+      b10 = b[10],
+      b11 = b[11];
     var b12 = b[12],
-        b13 = b[13],
-        b14 = b[14],
-        b15 = b[15];
+      b13 = b[13],
+      b14 = b[14],
+      b15 = b[15];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= EPSILON * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= EPSILON * Math.max(1.0, Math.abs(a5), Math.abs(b5)) && Math.abs(a6 - b6) <= EPSILON * Math.max(1.0, Math.abs(a6), Math.abs(b6)) && Math.abs(a7 - b7) <= EPSILON * Math.max(1.0, Math.abs(a7), Math.abs(b7)) && Math.abs(a8 - b8) <= EPSILON * Math.max(1.0, Math.abs(a8), Math.abs(b8)) && Math.abs(a9 - b9) <= EPSILON * Math.max(1.0, Math.abs(a9), Math.abs(b9)) && Math.abs(a10 - b10) <= EPSILON * Math.max(1.0, Math.abs(a10), Math.abs(b10)) && Math.abs(a11 - b11) <= EPSILON * Math.max(1.0, Math.abs(a11), Math.abs(b11)) && Math.abs(a12 - b12) <= EPSILON * Math.max(1.0, Math.abs(a12), Math.abs(b12)) && Math.abs(a13 - b13) <= EPSILON * Math.max(1.0, Math.abs(a13), Math.abs(b13)) && Math.abs(a14 - b14) <= EPSILON * Math.max(1.0, Math.abs(a14), Math.abs(b14)) && Math.abs(a15 - b15) <= EPSILON * Math.max(1.0, Math.abs(a15), Math.abs(b15));
   }
   /**
@@ -4094,11 +4090,11 @@ THE SOFTWARE.
 
   function cross(out, a, b) {
     var ax = a[0],
-        ay = a[1],
-        az = a[2];
+      ay = a[1],
+      az = a[2];
     var bx = b[0],
-        by = b[1],
-        bz = b[2];
+      by = b[1],
+      bz = b[2];
     out[0] = ay * bz - az * by;
     out[1] = az * bx - ax * bz;
     out[2] = ax * by - ay * bx;
@@ -4201,8 +4197,8 @@ THE SOFTWARE.
 
   function transformMat4(out, a, m) {
     var x = a[0],
-        y = a[1],
-        z = a[2];
+      y = a[1],
+      z = a[2];
     var w = m[3] * x + m[7] * y + m[11] * z + m[15];
     w = w || 1.0;
     out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w;
@@ -4221,8 +4217,8 @@ THE SOFTWARE.
 
   function transformMat3(out, a, m) {
     var x = a[0],
-        y = a[1],
-        z = a[2];
+      y = a[1],
+      z = a[2];
     out[0] = x * m[0] + y * m[3] + z * m[6];
     out[1] = x * m[1] + y * m[4] + z * m[7];
     out[2] = x * m[2] + y * m[5] + z * m[8];
@@ -4241,21 +4237,21 @@ THE SOFTWARE.
   function transformQuat(out, a, q) {
     // benchmarks: https://jsperf.com/quaternion-transform-vec3-implementations-fixed
     var qx = q[0],
-        qy = q[1],
-        qz = q[2],
-        qw = q[3];
+      qy = q[1],
+      qz = q[2],
+      qw = q[3];
     var x = a[0],
-        y = a[1],
-        z = a[2]; // var qvec = [qx, qy, qz];
+      y = a[1],
+      z = a[2]; // var qvec = [qx, qy, qz];
     // var uv = vec3.cross([], qvec, a);
 
     var uvx = qy * z - qz * y,
-        uvy = qz * x - qx * z,
-        uvz = qx * y - qy * x; // var uuv = vec3.cross([], qvec, uv);
+      uvy = qz * x - qx * z,
+      uvz = qx * y - qy * x; // var uuv = vec3.cross([], qvec, uv);
 
     var uuvx = qy * uvz - qz * uvy,
-        uuvy = qz * uvx - qx * uvz,
-        uuvz = qx * uvy - qy * uvx; // vec3.scale(uv, uv, 2 * w);
+      uuvy = qz * uvx - qx * uvz,
+      uuvz = qx * uvy - qy * uvx; // vec3.scale(uv, uv, 2 * w);
 
     var w2 = qw * 2;
     uvx *= w2;
@@ -4282,7 +4278,7 @@ THE SOFTWARE.
 
   function rotateX$1(out, a, b, c) {
     var p = [],
-        r = []; //Translate point to the origin
+      r = []; //Translate point to the origin
 
     p[0] = a[0] - b[0];
     p[1] = a[1] - b[1];
@@ -4308,7 +4304,7 @@ THE SOFTWARE.
 
   function rotateY$1(out, a, b, c) {
     var p = [],
-        r = []; //Translate point to the origin
+      r = []; //Translate point to the origin
 
     p[0] = a[0] - b[0];
     p[1] = a[1] - b[1];
@@ -4334,7 +4330,7 @@ THE SOFTWARE.
 
   function rotateZ$1(out, a, b, c) {
     var p = [],
-        r = []; //Translate point to the origin
+      r = []; //Translate point to the origin
 
     p[0] = a[0] - b[0];
     p[1] = a[1] - b[1];
@@ -4415,11 +4411,11 @@ THE SOFTWARE.
 
   function equals$5(a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2];
+      a1 = a[1],
+      a2 = a[2];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2];
+      b1 = b[1],
+      b2 = b[2];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2));
   }
   /**
@@ -4960,11 +4956,11 @@ THE SOFTWARE.
 
   function cross$1(out, u, v, w) {
     var A = v[0] * w[1] - v[1] * w[0],
-        B = v[0] * w[2] - v[2] * w[0],
-        C = v[0] * w[3] - v[3] * w[0],
-        D = v[1] * w[2] - v[2] * w[1],
-        E = v[1] * w[3] - v[3] * w[1],
-        F = v[2] * w[3] - v[3] * w[2];
+      B = v[0] * w[2] - v[2] * w[0],
+      C = v[0] * w[3] - v[3] * w[0],
+      D = v[1] * w[2] - v[2] * w[1],
+      E = v[1] * w[3] - v[3] * w[1],
+      F = v[2] * w[3] - v[3] * w[2];
     var G = u[0];
     var H = u[1];
     var I = u[2];
@@ -5042,9 +5038,9 @@ THE SOFTWARE.
 
   function transformMat4$1(out, a, m) {
     var x = a[0],
-        y = a[1],
-        z = a[2],
-        w = a[3];
+      y = a[1],
+      z = a[2],
+      w = a[3];
     out[0] = m[0] * x + m[4] * y + m[8] * z + m[12] * w;
     out[1] = m[1] * x + m[5] * y + m[9] * z + m[13] * w;
     out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w;
@@ -5062,12 +5058,12 @@ THE SOFTWARE.
 
   function transformQuat$1(out, a, q) {
     var x = a[0],
-        y = a[1],
-        z = a[2];
+      y = a[1],
+      z = a[2];
     var qx = q[0],
-        qy = q[1],
-        qz = q[2],
-        qw = q[3]; // calculate quat * vec
+      qy = q[1],
+      qz = q[2],
+      qw = q[3]; // calculate quat * vec
 
     var ix = qw * x + qy * z - qz * y;
     var iy = qw * y + qz * x - qx * z;
@@ -5125,13 +5121,13 @@ THE SOFTWARE.
 
   function equals$6(a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3));
   }
   /**
@@ -5366,13 +5362,13 @@ THE SOFTWARE.
 
   function multiply$6(out, a, b) {
     var ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
+      ay = a[1],
+      az = a[2],
+      aw = a[3];
     var bx = b[0],
-        by = b[1],
-        bz = b[2],
-        bw = b[3];
+      by = b[1],
+      bz = b[2],
+      bw = b[3];
     out[0] = ax * bw + aw * bx + ay * bz - az * by;
     out[1] = ay * bw + aw * by + az * bx - ax * bz;
     out[2] = az * bw + aw * bz + ax * by - ay * bx;
@@ -5391,11 +5387,11 @@ THE SOFTWARE.
   function rotateX$2(out, a, rad) {
     rad *= 0.5;
     var ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
+      ay = a[1],
+      az = a[2],
+      aw = a[3];
     var bx = Math.sin(rad),
-        bw = Math.cos(rad);
+      bw = Math.cos(rad);
     out[0] = ax * bw + aw * bx;
     out[1] = ay * bw + az * bx;
     out[2] = az * bw - ay * bx;
@@ -5414,11 +5410,11 @@ THE SOFTWARE.
   function rotateY$2(out, a, rad) {
     rad *= 0.5;
     var ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
+      ay = a[1],
+      az = a[2],
+      aw = a[3];
     var by = Math.sin(rad),
-        bw = Math.cos(rad);
+      bw = Math.cos(rad);
     out[0] = ax * bw - az * by;
     out[1] = ay * bw + aw * by;
     out[2] = az * bw + ax * by;
@@ -5437,11 +5433,11 @@ THE SOFTWARE.
   function rotateZ$2(out, a, rad) {
     rad *= 0.5;
     var ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
+      ay = a[1],
+      az = a[2],
+      aw = a[3];
     var bz = Math.sin(rad),
-        bw = Math.cos(rad);
+      bw = Math.cos(rad);
     out[0] = ax * bw + ay * bz;
     out[1] = ay * bw - ax * bz;
     out[2] = az * bw + aw * bz;
@@ -5460,8 +5456,8 @@ THE SOFTWARE.
 
   function calculateW(out, a) {
     var x = a[0],
-        y = a[1],
-        z = a[2];
+      y = a[1],
+      z = a[2];
     out[0] = x;
     out[1] = y;
     out[2] = z;
@@ -5482,13 +5478,13 @@ THE SOFTWARE.
     // benchmarks:
     //    http://jsperf.com/quaternion-slerp-implementations
     var ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
+      ay = a[1],
+      az = a[2],
+      aw = a[3];
     var bx = b[0],
-        by = b[1],
-        bz = b[2],
-        bw = b[3];
+      by = b[1],
+      bz = b[2],
+      bw = b[3];
     var omega, cosom, sinom, scale0, scale1; // calc cosine
 
     cosom = ax * bx + ay * by + az * bz + aw * bw; // adjust signs (if necessary)
@@ -5553,9 +5549,9 @@ THE SOFTWARE.
 
   function invert$4(out, a) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3];
     var dot$$1 = a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3;
     var invDot = dot$$1 ? 1.0 / dot$$1 : 0; // TODO: Would be faster to return [0,0,0,0] immediately if dot == 0
 
@@ -6041,8 +6037,8 @@ THE SOFTWARE.
     dq[2] = z1;
     dq[3] = w1;
     var ax = x2 * 0.5,
-        ay = y2 * 0.5,
-        az = z2 * 0.5;
+      ay = y2 * 0.5,
+      az = z2 * 0.5;
     dq[4] = ax * w1 + ay * z1 - az * y1;
     dq[5] = ay * w1 + az * x1 - ax * z1;
     dq[6] = az * w1 + ax * y1 - ay * x1;
@@ -6061,12 +6057,12 @@ THE SOFTWARE.
 
   function fromRotationTranslation$1(out, q, t) {
     var ax = t[0] * 0.5,
-        ay = t[1] * 0.5,
-        az = t[2] * 0.5,
-        bx = q[0],
-        by = q[1],
-        bz = q[2],
-        bw = q[3];
+      ay = t[1] * 0.5,
+      az = t[2] * 0.5,
+      bx = q[0],
+      by = q[1],
+      bz = q[2],
+      bw = q[3];
     out[0] = bx;
     out[1] = by;
     out[2] = bz;
@@ -6257,13 +6253,13 @@ THE SOFTWARE.
 
   function getTranslation$1(out, a) {
     var ax = a[4],
-        ay = a[5],
-        az = a[6],
-        aw = a[7],
-        bx = -a[0],
-        by = -a[1],
-        bz = -a[2],
-        bw = a[3];
+      ay = a[5],
+      az = a[6],
+      aw = a[7],
+      bx = -a[0],
+      by = -a[1],
+      bz = -a[2],
+      bw = a[3];
     out[0] = (ax * bw + aw * bx + ay * bz - az * by) * 2;
     out[1] = (ay * bw + aw * by + az * bx - ax * bz) * 2;
     out[2] = (az * bw + aw * bz + ax * by - ay * bx) * 2;
@@ -6280,16 +6276,16 @@ THE SOFTWARE.
 
   function translate$3(out, a, v) {
     var ax1 = a[0],
-        ay1 = a[1],
-        az1 = a[2],
-        aw1 = a[3],
-        bx1 = v[0] * 0.5,
-        by1 = v[1] * 0.5,
-        bz1 = v[2] * 0.5,
-        ax2 = a[4],
-        ay2 = a[5],
-        az2 = a[6],
-        aw2 = a[7];
+      ay1 = a[1],
+      az1 = a[2],
+      aw1 = a[3],
+      bx1 = v[0] * 0.5,
+      by1 = v[1] * 0.5,
+      bz1 = v[2] * 0.5,
+      ax2 = a[4],
+      ay2 = a[5],
+      az2 = a[6],
+      aw2 = a[7];
     out[0] = ax1;
     out[1] = ay1;
     out[2] = az1;
@@ -6311,17 +6307,17 @@ THE SOFTWARE.
 
   function rotateX$3(out, a, rad) {
     var bx = -a[0],
-        by = -a[1],
-        bz = -a[2],
-        bw = a[3],
-        ax = a[4],
-        ay = a[5],
-        az = a[6],
-        aw = a[7],
-        ax1 = ax * bw + aw * bx + ay * bz - az * by,
-        ay1 = ay * bw + aw * by + az * bx - ax * bz,
-        az1 = az * bw + aw * bz + ax * by - ay * bx,
-        aw1 = aw * bw - ax * bx - ay * by - az * bz;
+      by = -a[1],
+      bz = -a[2],
+      bw = a[3],
+      ax = a[4],
+      ay = a[5],
+      az = a[6],
+      aw = a[7],
+      ax1 = ax * bw + aw * bx + ay * bz - az * by,
+      ay1 = ay * bw + aw * by + az * bx - ax * bz,
+      az1 = az * bw + aw * bz + ax * by - ay * bx,
+      aw1 = aw * bw - ax * bx - ay * by - az * bz;
     rotateX$2(out, a, rad);
     bx = out[0];
     by = out[1];
@@ -6344,17 +6340,17 @@ THE SOFTWARE.
 
   function rotateY$3(out, a, rad) {
     var bx = -a[0],
-        by = -a[1],
-        bz = -a[2],
-        bw = a[3],
-        ax = a[4],
-        ay = a[5],
-        az = a[6],
-        aw = a[7],
-        ax1 = ax * bw + aw * bx + ay * bz - az * by,
-        ay1 = ay * bw + aw * by + az * bx - ax * bz,
-        az1 = az * bw + aw * bz + ax * by - ay * bx,
-        aw1 = aw * bw - ax * bx - ay * by - az * bz;
+      by = -a[1],
+      bz = -a[2],
+      bw = a[3],
+      ax = a[4],
+      ay = a[5],
+      az = a[6],
+      aw = a[7],
+      ax1 = ax * bw + aw * bx + ay * bz - az * by,
+      ay1 = ay * bw + aw * by + az * bx - ax * bz,
+      az1 = az * bw + aw * bz + ax * by - ay * bx,
+      aw1 = aw * bw - ax * bx - ay * by - az * bz;
     rotateY$2(out, a, rad);
     bx = out[0];
     by = out[1];
@@ -6377,17 +6373,17 @@ THE SOFTWARE.
 
   function rotateZ$3(out, a, rad) {
     var bx = -a[0],
-        by = -a[1],
-        bz = -a[2],
-        bw = a[3],
-        ax = a[4],
-        ay = a[5],
-        az = a[6],
-        aw = a[7],
-        ax1 = ax * bw + aw * bx + ay * bz - az * by,
-        ay1 = ay * bw + aw * by + az * bx - ax * bz,
-        az1 = az * bw + aw * bz + ax * by - ay * bx,
-        aw1 = aw * bw - ax * bx - ay * by - az * bz;
+      by = -a[1],
+      bz = -a[2],
+      bw = a[3],
+      ax = a[4],
+      ay = a[5],
+      az = a[6],
+      aw = a[7],
+      ax1 = ax * bw + aw * bx + ay * bz - az * by,
+      ay1 = ay * bw + aw * by + az * bx - ax * bz,
+      az1 = az * bw + aw * bz + ax * by - ay * bx,
+      aw1 = aw * bw - ax * bx - ay * by - az * bz;
     rotateZ$2(out, a, rad);
     bx = out[0];
     by = out[1];
@@ -6410,13 +6406,13 @@ THE SOFTWARE.
 
   function rotateByQuatAppend(out, a, q) {
     var qx = q[0],
-        qy = q[1],
-        qz = q[2],
-        qw = q[3],
-        ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
+      qy = q[1],
+      qz = q[2],
+      qw = q[3],
+      ax = a[0],
+      ay = a[1],
+      az = a[2],
+      aw = a[3];
     out[0] = ax * qw + aw * qx + ay * qz - az * qy;
     out[1] = ay * qw + aw * qy + az * qx - ax * qz;
     out[2] = az * qw + aw * qz + ax * qy - ay * qx;
@@ -6442,13 +6438,13 @@ THE SOFTWARE.
 
   function rotateByQuatPrepend(out, q, a) {
     var qx = q[0],
-        qy = q[1],
-        qz = q[2],
-        qw = q[3],
-        bx = a[0],
-        by = a[1],
-        bz = a[2],
-        bw = a[3];
+      qy = q[1],
+      qz = q[2],
+      qw = q[3],
+      bx = a[0],
+      by = a[1],
+      bz = a[2],
+      bw = a[3];
     out[0] = qx * bw + qw * bx + qy * bz - qz * by;
     out[1] = qy * bw + qw * by + qz * bx - qx * bz;
     out[2] = qz * bw + qw * bz + qx * by - qy * bx;
@@ -6487,17 +6483,17 @@ THE SOFTWARE.
     var bz = s * axis[2] / axisLength;
     var bw = Math.cos(rad);
     var ax1 = a[0],
-        ay1 = a[1],
-        az1 = a[2],
-        aw1 = a[3];
+      ay1 = a[1],
+      az1 = a[2],
+      aw1 = a[3];
     out[0] = ax1 * bw + aw1 * bx + ay1 * bz - az1 * by;
     out[1] = ay1 * bw + aw1 * by + az1 * bx - ax1 * bz;
     out[2] = az1 * bw + aw1 * bz + ax1 * by - ay1 * bx;
     out[3] = aw1 * bw - ax1 * bx - ay1 * by - az1 * bz;
     var ax = a[4],
-        ay = a[5],
-        az = a[6],
-        aw = a[7];
+      ay = a[5],
+      az = a[6],
+      aw = a[7];
     out[4] = ax * bw + aw * bx + ay * bz - az * by;
     out[5] = ay * bw + aw * by + az * bx - ax * bz;
     out[6] = az * bw + aw * bz + ax * by - ay * bx;
@@ -6536,21 +6532,21 @@ THE SOFTWARE.
 
   function multiply$7(out, a, b) {
     var ax0 = a[0],
-        ay0 = a[1],
-        az0 = a[2],
-        aw0 = a[3],
-        bx1 = b[4],
-        by1 = b[5],
-        bz1 = b[6],
-        bw1 = b[7],
-        ax1 = a[4],
-        ay1 = a[5],
-        az1 = a[6],
-        aw1 = a[7],
-        bx0 = b[0],
-        by0 = b[1],
-        bz0 = b[2],
-        bw0 = b[3];
+      ay0 = a[1],
+      az0 = a[2],
+      aw0 = a[3],
+      bx1 = b[4],
+      by1 = b[5],
+      bz1 = b[6],
+      bw1 = b[7],
+      ax1 = a[4],
+      ay1 = a[5],
+      az1 = a[6],
+      aw1 = a[7],
+      bx0 = b[0],
+      by0 = b[1],
+      bz0 = b[2],
+      bw0 = b[3];
     out[0] = ax0 * bw0 + aw0 * bx0 + ay0 * bz0 - az0 * by0;
     out[1] = ay0 * bw0 + aw0 * by0 + az0 * bx0 - ax0 * bz0;
     out[2] = az0 * bw0 + aw0 * bz0 + ax0 * by0 - ay0 * bx0;
@@ -6758,21 +6754,21 @@ THE SOFTWARE.
 
   function equals$8(a, b) {
     var a0 = a[0],
-        a1 = a[1],
-        a2 = a[2],
-        a3 = a[3],
-        a4 = a[4],
-        a5 = a[5],
-        a6 = a[6],
-        a7 = a[7];
+      a1 = a[1],
+      a2 = a[2],
+      a3 = a[3],
+      a4 = a[4],
+      a5 = a[5],
+      a6 = a[6],
+      a7 = a[7];
     var b0 = b[0],
-        b1 = b[1],
-        b2 = b[2],
-        b3 = b[3],
-        b4 = b[4],
-        b5 = b[5],
-        b6 = b[6],
-        b7 = b[7];
+      b1 = b[1],
+      b2 = b[2],
+      b3 = b[3],
+      b4 = b[4],
+      b5 = b[5],
+      b6 = b[6],
+      b7 = b[7];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= EPSILON * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= EPSILON * Math.max(1.0, Math.abs(a5), Math.abs(b5)) && Math.abs(a6 - b6) <= EPSILON * Math.max(1.0, Math.abs(a6), Math.abs(b6)) && Math.abs(a7 - b7) <= EPSILON * Math.max(1.0, Math.abs(a7), Math.abs(b7));
   }
 
@@ -7055,7 +7051,7 @@ THE SOFTWARE.
 
   function distance$2(a, b) {
     var x = b[0] - a[0],
-        y = b[1] - a[1];
+      y = b[1] - a[1];
     return Math.sqrt(x * x + y * y);
   }
   /**
@@ -7068,7 +7064,7 @@ THE SOFTWARE.
 
   function squaredDistance$2(a, b) {
     var x = b[0] - a[0],
-        y = b[1] - a[1];
+      y = b[1] - a[1];
     return x * x + y * y;
   }
   /**
@@ -7080,7 +7076,7 @@ THE SOFTWARE.
 
   function length$4(a) {
     var x = a[0],
-        y = a[1];
+      y = a[1];
     return Math.sqrt(x * x + y * y);
   }
   /**
@@ -7092,7 +7088,7 @@ THE SOFTWARE.
 
   function squaredLength$4(a) {
     var x = a[0],
-        y = a[1];
+      y = a[1];
     return x * x + y * y;
   }
   /**
@@ -7131,7 +7127,7 @@ THE SOFTWARE.
 
   function normalize$4(out, a) {
     var x = a[0],
-        y = a[1];
+      y = a[1];
     var len = x * x + y * y;
 
     if (len > 0) {
@@ -7182,7 +7178,7 @@ THE SOFTWARE.
 
   function lerp$4(out, a, b, t) {
     var ax = a[0],
-        ay = a[1];
+      ay = a[1];
     out[0] = ax + t * (b[0] - ax);
     out[1] = ay + t * (b[1] - ay);
     return out;
@@ -7213,7 +7209,7 @@ THE SOFTWARE.
 
   function transformMat2(out, a, m) {
     var x = a[0],
-        y = a[1];
+      y = a[1];
     out[0] = m[0] * x + m[2] * y;
     out[1] = m[1] * x + m[3] * y;
     return out;
@@ -7229,7 +7225,7 @@ THE SOFTWARE.
 
   function transformMat2d(out, a, m) {
     var x = a[0],
-        y = a[1];
+      y = a[1];
     out[0] = m[0] * x + m[2] * y + m[4];
     out[1] = m[1] * x + m[3] * y + m[5];
     return out;
@@ -7246,7 +7242,7 @@ THE SOFTWARE.
 
   function transformMat3$1(out, a, m) {
     var x = a[0],
-        y = a[1];
+      y = a[1];
     out[0] = m[0] * x + m[3] * y + m[6];
     out[1] = m[1] * x + m[4] * y + m[7];
     return out;
@@ -7281,9 +7277,9 @@ THE SOFTWARE.
   function rotate$4(out, a, b, c) {
     //Translate point to the origin
     var p0 = a[0] - b[0],
-        p1 = a[1] - b[1],
-        sinC = Math.sin(c),
-        cosC = Math.cos(c); //perform rotation and translate to correct position
+      p1 = a[1] - b[1],
+      sinC = Math.sin(c),
+      cosC = Math.cos(c); //perform rotation and translate to correct position
 
     out[0] = p0 * cosC - p1 * sinC + b[0];
     out[1] = p0 * sinC + p1 * cosC + b[1];
@@ -7298,9 +7294,9 @@ THE SOFTWARE.
 
   function angle$1(a, b) {
     var x1 = a[0],
-        y1 = a[1],
-        x2 = b[0],
-        y2 = b[1];
+      y1 = a[1],
+      x2 = b[0],
+      y2 = b[1];
     var len1 = x1 * x1 + y1 * y1;
 
     if (len1 > 0) {
@@ -7368,9 +7364,9 @@ THE SOFTWARE.
 
   function equals$9(a, b) {
     var a0 = a[0],
-        a1 = a[1];
+      a1 = a[1];
     var b0 = b[0],
-        b1 = b[1];
+      b1 = b[1];
     return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1));
   }
   /**
@@ -7506,18 +7502,3 @@ THE SOFTWARE.
     sqrLen: sqrLen$4,
     forEach: forEach$2
   });
-
-  exports.glMatrix = common;
-  exports.mat2 = mat2;
-  exports.mat2d = mat2d;
-  exports.mat3 = mat3;
-  exports.mat4 = mat4;
-  exports.quat = quat;
-  exports.quat2 = quat2;
-  exports.vec2 = vec2;
-  exports.vec3 = vec3;
-  exports.vec4 = vec4;
-
-  Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
