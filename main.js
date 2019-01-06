@@ -52,6 +52,17 @@ function main() {
      * @type {WebGLProgram} WebGL program.
      */
     const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
+
+    const programInfo = {
+        program: shaderProgram,
+        attribLocations: {
+          vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+        },
+        uniformLocations: {
+          projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+          modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+        },
+      };
 }
 
 /**
