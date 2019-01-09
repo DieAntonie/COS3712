@@ -29,12 +29,16 @@ function main() {
      */
     const vsSource = `
     attribute vec4 aVertexPosition;
+    attribute vec4 aVertexColor;
 
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
 
+    varying lowp vec4 vColor;
+
     void main() {
         gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        vColor = aVertexColor;
     }
     `;
 
@@ -43,8 +47,10 @@ function main() {
      * @type {String}
      */
     const fsSource = `
+    varying lowp vec4 vColor;
+
     void main() {
-      gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+      gl_FragColor = vColor;
     }
     `;
 
@@ -142,7 +148,7 @@ function loadShader(gl, type, source) {
 /**
  * Create buffer.
  * @param {WebGLRenderingContext} gl WebGL rendering context.
- * @returns { {position: WebGLBuffer} } Complex object.
+ * @returns { {position: WebGLBuffer, color: WebGLBuffer} } Complex object.
  */
 function initBuffers(gl) {
 
