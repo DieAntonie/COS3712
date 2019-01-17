@@ -1,4 +1,4 @@
-import { positions as cube_positions, colors as cube_colors } from './cube.js';
+import { positions as cube_positions, colors as cube_colors, indices as cube_indices } from './cube.js';
 import { positions as square_positions, colors as square_colors, } from './square.js';
 
 /**
@@ -186,17 +186,35 @@ function initBuffers(gl) {
 
     /**
      * Populate buffer with data.
+     * @param {Number} target Targeted Buffer type.
+     * @param {WebGLBuffer} webGLBuffer Web GL buffer.
+     * @param {Float32Array|Uint16Array} bufferData Buffer data.
+     */
+    function populateBuffer(target, webGLBuffer, bufferData) {
+
+        // Select the buffer to apply buffer operations to from here out.
+        gl.bindBuffer(target, webGLBuffer);
+
+        // Fill the current buffer.
+        gl.bufferData(target, bufferData, gl.STATIC_DRAW);
+    }
+
+    /**
+     * Populate element buffer with data.
      * @param {WebGLBuffer} webGLBuffer Web GL buffer.
      * @param {Number[]} bufferData Buffer data.
      */
-    function populateBuffer(webGLBuffer, bufferData) {
+    function populateElementBuffer(webGLBuffer, bufferData) {
+        populateBuffer(gl.ELEMENT_ARRAY_BUFFER, webGLBuffer, new Uint16Array(bufferData))
+    }
 
-        // Select the buffer to apply buffer operations to from here out.
-        gl.bindBuffer(gl.ARRAY_BUFFER, webGLBuffer);
-
-        // Pass the list into WebGL by creating a Float32Array from the JavaScript array,
-        //then use it to fill the current buffer.
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bufferData), gl.STATIC_DRAW);
+    /**
+     * Populate array buffer with data.
+     * @param {WebGLBuffer} webGLBuffer Web GL buffer.
+     * @param {Number[]} bufferData Buffer data.
+     */
+    function populateArrayBuffer(webGLBuffer, bufferData) {
+        populateBuffer(gl.ARRAY_BUFFER, webGLBuffer, new Float32Array(bufferData))
     }
 
     /**
@@ -212,10 +230,10 @@ function initBuffers(gl) {
     const square_colorBuffer = gl.createBuffer();
 
     // Populate position buffer with position data.
-    populateBuffer(square_positionBuffer, square_positions);
+    populateArrayBuffer(square_positionBuffer, square_positions);
 
     // Populate color buffer with color data.
-    populateBuffer(square_colorBuffer, square_colors);
+    populateArrayBuffer(square_colorBuffer, square_colors);
 
     /**
      * Buffer to store the vertex positions of a cube.
@@ -224,22 +242,25 @@ function initBuffers(gl) {
     const cube_positionBuffer = gl.createBuffer();
 
     /**
-     * Buffer to store the vertex positions of a cube.
+     * Buffer to store the vertex colors of a cube.
      * @type {WebGLBuffer} WebGL buffer.
      */
     const cube_colorBuffer = gl.createBuffer();
 
     /**
-     * Buffer to store the vertex positions of a cube.
+     * Buffer to store the element of a cube.
      * @type {WebGLBuffer} WebGL buffer.
      */
     const cube_indexBuffer = gl.createBuffer();
 
     // Populate position buffer with position data.
-    populateBuffer(cube_positionBuffer, cube_positions);
+    populateArrayBuffer(cube_positionBuffer, cube_positions);
 
-    // Populate position buffer with position data.
-    populateBuffer(cube_colorBuffer, cube_colors);
+    // Populate color buffer with color data.
+    populateArrayBuffer(cube_colorBuffer, cube_colors);
+
+    // Populate element buffer with element data.
+    populateElementBuffer(cube_indexBuffer, cube_indices);
 
     return {
         square_buffers: {
