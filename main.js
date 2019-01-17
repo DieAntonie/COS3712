@@ -1,3 +1,8 @@
+
+import { LeFunction } from './file.js';
+
+LeFunction('boo freakity whoo');
+
 /**
  * Set up the WebGL context and start rendering content.
  */
