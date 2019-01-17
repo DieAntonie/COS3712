@@ -1,5 +1,13 @@
-import { positions as cube_positions, colors as cube_colors, indices as cube_indices } from './cube.js';
-import { positions as square_positions, colors as square_colors, } from './square.js';
+import {
+    positions as cube_positions,
+    colors as cube_colors,
+    indices as cube_indices
+} from './cube.js';
+
+import {
+    positions as square_positions,
+    colors as square_colors
+} from './square.js';
 
 /**
  * Set up the WebGL context and start rendering content.
