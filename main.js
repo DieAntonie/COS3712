@@ -229,6 +229,12 @@ function initBuffers(gl) {
      */
     const cube_colorBuffer = gl.createBuffer();
 
+    /**
+     * Buffer to store the vertex positions of a cube.
+     * @type {WebGLBuffer} WebGL buffer.
+     */
+    const cube_indexBuffer = gl.createBuffer();
+
     // Populate position buffer with position data.
     populateBuffer(cube_positionBuffer, cube_positions);
 
@@ -243,6 +249,7 @@ function initBuffers(gl) {
         cube_buffers: {
             position: cube_positionBuffer,
             color: cube_colorBuffer,
+            indices: cube_indexBuffer
         }
     };
 }
