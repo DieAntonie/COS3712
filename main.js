@@ -1,5 +1,5 @@
-import { positions as CubePostions } from './cube.js';
-import { positions as square_positions, colors as square_colors,  } from './square.js';
+import { positions as cube_positions, colors as cube_colors } from './cube.js';
+import { positions as square_positions, colors as square_colors, } from './square.js';
 
 /**
  * Set up the WebGL context and start rendering content.
@@ -93,15 +93,15 @@ function main() {
      * @param {Number} now Time in milliseconds since the page loaded.
      */
     function render(now) {
-      now *= 0.001;  // convert to seconds
+        now *= 0.001;  // convert to seconds
 
-      squareRotation += now - then;
-  
-      drawScene(gl, programInfo, buffers, squareRotation);
+        squareRotation += now - then;
 
-      then = now;
-  
-      requestAnimationFrame(render);
+        drawScene(gl, programInfo, buffers, squareRotation);
+
+        then = now;
+
+        requestAnimationFrame(render);
     }
 
     requestAnimationFrame(render);
@@ -203,33 +203,47 @@ function initBuffers(gl) {
      * Buffer to store the vertex positions.
      * @type {WebGLBuffer} WebGL buffer.
      */
-    const positionBuffer = gl.createBuffer();
-
-    /**
-     * Buffer to store the vertex positions of a cube.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const cubePositionBuffer = gl.createBuffer();
+    const square_positionBuffer = gl.createBuffer();
 
     /**
      * Buffer to store the vertex colors.
      * @type {WebGLBuffer} WebGL buffer.
      */
-    const colorBuffer = gl.createBuffer();
+    const square_colorBuffer = gl.createBuffer();
 
     // Populate position buffer with position data.
-    populateBuffer(cubePositionBuffer, CubePostions);
-
-    // Populate position buffer with position data.
-    populateBuffer(positionBuffer, square_positions);
+    populateBuffer(square_positionBuffer, square_positions);
 
     // Populate color buffer with color data.
-    populateBuffer(colorBuffer, square_colors);
+    populateBuffer(square_colorBuffer, square_colors);
+
+    /**
+     * Buffer to store the vertex positions of a cube.
+     * @type {WebGLBuffer} WebGL buffer.
+     */
+    const cube_positionBuffer = gl.createBuffer();
+
+    /**
+     * Buffer to store the vertex positions of a cube.
+     * @type {WebGLBuffer} WebGL buffer.
+     */
+    const cube_colorBuffer = gl.createBuffer();
+
+    // Populate position buffer with position data.
+    populateBuffer(cube_positionBuffer, cube_positions);
+
+    // Populate position buffer with position data.
+    populateBuffer(cube_colorBuffer, cube_colors);
 
     return {
-        position: positionBuffer,
-        cubePosition: cubePositionBuffer,
-        color: colorBuffer,
+        square_buffers: {
+            position: square_positionBuffer,
+            color: square_colorBuffer,
+        },
+        cube_buffers: {
+            position: cube_positionBuffer,
+            color: cube_colorBuffer,
+        }
     };
 }
 
