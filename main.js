@@ -1,7 +1,5 @@
 
-import { LeFunction } from './file.js';
-
-LeFunction('boo freakity whoo');
+import { positions as CubePostions } from './cube.js';
 
 /**
  * Set up the WebGL context and start rendering content.
