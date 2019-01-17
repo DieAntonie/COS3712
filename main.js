@@ -105,7 +105,7 @@ function main() {
 
         squareRotation += now - then;
 
-        drawScene(gl, programInfo, buffers, squareRotation);
+        drawCubeScene(gl, programInfo, buffers, squareRotation);
 
         then = now;
 
@@ -290,7 +290,7 @@ function initBuffers(gl) {
  * @param {{square_buffers:{position: WebGLBuffer,color: WebGLBuffer},cube_buffers: {position: WebGLBuffer,color: WebGLBuffer,}}} buffers 
  * @param {Number} squareRotation Current rotation of the square. 
  */
-function drawScene(gl, programInfo, buffers, squareRotation) {
+function drawSquareScene(gl, programInfo, buffers, squareRotation) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -384,6 +384,93 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
             programInfo.attribLocations.vertexColor);
     }
 
+    // Tell WebGL how to pull out the colors from the color buffer into the vertexColor attribute.
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.cube_buffers.indices);
+
+    // Tell WebGL to use our program when drawing
+    gl.useProgram(programInfo.program);
+
+    // Set the shader uniforms
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.projectionMatrix,
+        false,
+        projectionMatrix);
+
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.modelViewMatrix,
+        false,
+        modelViewMatrix);
+
+    {
+        const offset = 0;
+        const vertexCount = 4;
+        gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+    }
+}
+
+/**
+ * 
+ * @param {WebGLRenderingContext} gl WebGL rendering context. 
+ * @param {{ program: WebGLProgram, attribLocations: { vertexPosition: number, vertexColor: number }, uniformLocations: { projectionMatrix: WebGLUniformLocation, modelViewMatrix: WebGLUniformLocation }}} programInfo 
+ * @param {{square_buffers:{position: WebGLBuffer,color: WebGLBuffer},cube_buffers: {position: WebGLBuffer,color: WebGLBuffer,}}} buffers 
+ * @param {Number} squareRotation Current rotation of the square. 
+ */
+function drawCubeScene(gl, programInfo, buffers, squareRotation) {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+    gl.clearDepth(1.0);                 // Clear everything
+    gl.enable(gl.DEPTH_TEST);           // Enable depth testing
+    gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
+
+    // Clear the canvas before we start drawing on it.
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    /**
+     * Field of view is 45 degrees in radians.
+     * @type {Number} Degrees in radians.
+     */
+    const fieldOfView = 45 * Math.PI / 180;
+
+    /**
+     * Ratio that matches the display size of the canvas.
+     * @type {Number} width/height 
+     */
+    const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+
+    /**
+     * Minimum visibility threshold.
+     * @type {Number}
+     */
+    const zNear = 0.1;
+
+    /**
+     * Maximum visibility threshold.
+     * @type {Number}
+     */
+    const zFar = 100.0;
+
+    /**
+     * Perspective matrix, a special matrix that is used to simulate the distortion of perspective in a camera.
+     * @type {mat4} 4x4 Matrix.
+     */
+    const projectionMatrix = mat4.create();
+
+    // note: glmatrix.js always has the first argument as the destination to receive the result.
+    mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
+
+    // Set the drawing position to the "identity" point, which is the center of the scene.
+    const modelViewMatrix = mat4.create();
+
+    // Now move the drawing position a bit to where we want to
+    // start drawing the square.
+    mat4.translate(modelViewMatrix,     // destination matrix
+        modelViewMatrix,     // matrix to translate
+        [-0.0, 0.0, -6.0]);  // amount to translate
+
+    mat4.rotate(modelViewMatrix,  // destination matrix
+        modelViewMatrix,  // matrix to rotate
+        squareRotation,   // amount to rotate in radians
+        [0, 1, 1]);       // axis to rotate around
+
     // Tell WebGL how to pull out the positions from the position buffer into the vertexPosition attribute.
     {
         const numComponents = 3;  // pull out 3 values per iteration
@@ -432,18 +519,14 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.projectionMatrix,
         false,
-        projectionMatrix);
+        projectionMatrix
+    );
 
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.modelViewMatrix,
         false,
-        modelViewMatrix);
-
-    {
-        const offset = 0;
-        const vertexCount = 4;
-        gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
-    }
+        modelViewMatrix
+    );
 
     {
         const vertexCount = 36;
