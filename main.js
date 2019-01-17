@@ -1,4 +1,5 @@
 import { positions as CubePostions } from './cube.js';
+import { positions as square_positions, colors as square_colors,  } from './square.js';
 
 /**
  * Set up the WebGL context and start rendering content.
@@ -216,36 +217,14 @@ function initBuffers(gl) {
      */
     const colorBuffer = gl.createBuffer();
 
-    /**
-     * Array of positions for the square.
-     * @type {Number[]}
-     */
-    const positions = [
-        -1.0, 1.0,
-        1.0, 1.0,
-        -1.0, -1.0,
-        1.0, -1.0,
-    ];
-
-    /**
-     * Array of vertex colors.
-     * @type {Number[]}
-     */
-    const colors = [
-        1.0, 1.0, 1.0, 1.0,    // white
-        1.0, 0.0, 0.0, 1.0,    // red
-        0.0, 1.0, 0.0, 1.0,    // green
-        0.0, 0.0, 1.0, 1.0,    // blue
-    ];
-
     // Populate position buffer with position data.
     populateBuffer(cubePositionBuffer, CubePostions);
 
     // Populate position buffer with position data.
-    populateBuffer(positionBuffer, positions);
+    populateBuffer(positionBuffer, square_positions);
 
     // Populate color buffer with color data.
-    populateBuffer(colorBuffer, colors);
+    populateBuffer(colorBuffer, square_colors);
 
     return {
         position: positionBuffer,
@@ -258,7 +237,7 @@ function initBuffers(gl) {
  * 
  * @param {WebGLRenderingContext} gl WebGL rendering context. 
  * @param {{ program: WebGLProgram, attribLocations: { vertexPosition: number, vertexColor: number }, uniformLocations: { projectionMatrix: WebGLUniformLocation, modelViewMatrix: WebGLUniformLocation }}} programInfo 
- * @param {{position: WebGLBuffer}} buffers 
+ * @param {{position: WebGLBuffer, color: WebGLBuffer}} buffers 
  * @param {Number} squareRotation Current rotation of the square. 
  */
 function drawScene(gl, programInfo, buffers, squareRotation) {
