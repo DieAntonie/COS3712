@@ -344,7 +344,7 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
     mat4.rotate(modelViewMatrix,  // destination matrix
         modelViewMatrix,  // matrix to rotate
         squareRotation,   // amount to rotate in radians
-        [0, 0, 1]);       // axis to rotate around
+        [0, 1, 1]);       // axis to rotate around
 
     // Tell WebGL how to pull out the positions from the position buffer into the vertexPosition attribute.
     {
@@ -384,6 +384,47 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
             programInfo.attribLocations.vertexColor);
     }
 
+    // Tell WebGL how to pull out the positions from the position buffer into the vertexPosition attribute.
+    {
+        const numComponents = 3;  // pull out 3 values per iteration
+        const type = gl.FLOAT;    // the data in the buffer is 32bit floats
+        const normalize = false;  // don't normalize
+        const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
+        const offset = 0;         // how many bytes inside the buffer to start from
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.cube_buffers.position);
+        gl.vertexAttribPointer(
+            programInfo.attribLocations.vertexPosition,
+            numComponents,
+            type,
+            normalize,
+            stride,
+            offset);
+        gl.enableVertexAttribArray(
+            programInfo.attribLocations.vertexPosition);
+    }
+
+    // Tell WebGL how to pull out the colors from the color buffer into the vertexColor attribute.
+    {
+        const numComponents = 4;  // pull out 4 values per iteration
+        const type = gl.FLOAT;    // the data in the buffer is 32bit floats
+        const normalize = false;  // don't normalize
+        const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
+        const offset = 0;         // how many bytes inside the buffer to start from
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.cube_buffers.color);
+        gl.vertexAttribPointer(
+            programInfo.attribLocations.vertexColor,
+            numComponents,
+            type,
+            normalize,
+            stride,
+            offset);
+        gl.enableVertexAttribArray(
+            programInfo.attribLocations.vertexColor);
+    }
+
+    // Tell WebGL how to pull out the colors from the color buffer into the vertexColor attribute.
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.cube_buffers.indices);
+
     // Tell WebGL to use our program when drawing
     gl.useProgram(programInfo.program);
 
@@ -402,6 +443,13 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
         const offset = 0;
         const vertexCount = 4;
         gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+    }
+
+    {
+        const vertexCount = 36;
+        const type = gl.UNSIGNED_SHORT;
+        const offset = 0;
+        gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
 }
 
