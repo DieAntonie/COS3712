@@ -1,4 +1,3 @@
-
 import { positions as CubePostions } from './cube.js';
 
 /**
@@ -206,6 +205,12 @@ function initBuffers(gl) {
     const positionBuffer = gl.createBuffer();
 
     /**
+     * Buffer to store the vertex positions of a cube.
+     * @type {WebGLBuffer} WebGL buffer.
+     */
+    const cubePositionBuffer = gl.createBuffer();
+
+    /**
      * Buffer to store the vertex colors.
      * @type {WebGLBuffer} WebGL buffer.
      */
@@ -234,6 +239,9 @@ function initBuffers(gl) {
     ];
 
     // Populate position buffer with position data.
+    populateBuffer(cubePositionBuffer, CubePostions);
+
+    // Populate position buffer with position data.
     populateBuffer(positionBuffer, positions);
 
     // Populate color buffer with color data.
@@ -241,6 +249,7 @@ function initBuffers(gl) {
 
     return {
         position: positionBuffer,
+        cubePosition: cubePositionBuffer,
         color: colorBuffer,
     };
 }
