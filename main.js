@@ -180,7 +180,7 @@ function loadShader(gl, type, source) {
 /**
  * Create buffer.
  * @param {WebGLRenderingContext} gl WebGL rendering context.
- * @returns { {position: WebGLBuffer, color: WebGLBuffer} } Complex object.
+ * @returns {{square_buffers:{position: WebGLBuffer,color: WebGLBuffer},cube_buffers: {position: WebGLBuffer,color: WebGLBuffer,}}} Complex object.
  */
 function initBuffers(gl) {
 
@@ -251,7 +251,7 @@ function initBuffers(gl) {
  * 
  * @param {WebGLRenderingContext} gl WebGL rendering context. 
  * @param {{ program: WebGLProgram, attribLocations: { vertexPosition: number, vertexColor: number }, uniformLocations: { projectionMatrix: WebGLUniformLocation, modelViewMatrix: WebGLUniformLocation }}} programInfo 
- * @param {{position: WebGLBuffer, color: WebGLBuffer}} buffers 
+ * @param {{square_buffers:{position: WebGLBuffer,color: WebGLBuffer},cube_buffers: {position: WebGLBuffer,color: WebGLBuffer,}}} buffers 
  * @param {Number} squareRotation Current rotation of the square. 
  */
 function drawScene(gl, programInfo, buffers, squareRotation) {
@@ -317,7 +317,7 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.square_buffers.position);
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexPosition,
             numComponents,
@@ -336,7 +336,7 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.square_buffers.color);
         gl.vertexAttribPointer(
             programInfo.attribLocations.vertexColor,
             numComponents,
