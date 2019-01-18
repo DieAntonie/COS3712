@@ -1,9 +1,5 @@
 import {
-    positions as cube_positions,
-    colors as cube_colors,
-    indices as cube_indices,
-    texture as cube_texture,
-    normals as cube_normal
+    cube_object
 } from './cube.js';
 
 import {
@@ -100,19 +96,19 @@ function initBuffers(gl) {
     const cube_indexBuffer = gl.createBuffer();
 
     // Populate position buffer with position data.
-    populateArrayBuffer(cube_positionBuffer, cube_positions);
+    populateArrayBuffer(cube_positionBuffer, cube_object.positions);
 
     // Populate color buffer with color data.
-    populateArrayBuffer(cube_colorBuffer, cube_colors);
+    populateArrayBuffer(cube_colorBuffer, cube_object.colors);
 
     // Populate color buffer with color data.
-    populateArrayBuffer(cube_textureBuffer, cube_texture);
+    populateArrayBuffer(cube_textureBuffer, cube_object.textures);
 
     // Populate color buffer with color data.
-    populateArrayBuffer(cube_normalBuffer, cube_normal);
+    populateArrayBuffer(cube_normalBuffer, cube_object.normals);
 
     // Populate element buffer with element data.
-    populateElementBuffer(cube_indexBuffer, cube_indices);
+    populateElementBuffer(cube_indexBuffer, cube_object.indices);
 
     return new BufferData({
         square_buffers: {

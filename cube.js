@@ -1,10 +1,91 @@
-export {
-    positions,
-    colors,
-    indices,
-    texture,
-    normals
-};
+/**
+ * Cube object to be rendered.
+ * @property {Number[]} positions Positions of the cube's vertices.
+ * @property {Number[]} indices Triagle definitions of the cube faces.
+ * @property {Number[]} colors Color codes of the cube's faces.
+ * @property {Number[]} textures Texture mapping for cube's faces.
+ * @property {Number[]} normals Normals perpendicular to the Cube's face vertices.
+ */
+class CubeObject {
+    /**
+     * Instantiate a `CubeObject`.
+     * @param {Number[]} positions Positions of the cube's vertices.
+     * @param {Number[]} indices Triagle definitions of the cube faces.
+     * @param {Number[]} colors Color codes of the cube's faces.
+     * @param {Number[]} textures Texture mapping for cube's faces.
+     * @param {Number[]} normals Normals perpendicular to the Cube's face vertices.
+     */
+    constructor(positions, indices, colors, textures, normals) {
+        /**
+         * Positions of the cube's vertices.
+         * @type {Number[]}
+         */
+        this._positions = positions;
+
+        /**
+         * Triagle definitions of the cube faces.
+         * @type {Number[]}
+         */
+        this._indices = indices;
+
+        /**
+         * Color codes of the cube's faces.
+         * @type {Number[]}
+         */
+        this._colors = colors;
+
+        /**
+         * Texture mapping for cube's faces.
+         * @type {Number[]}
+         */
+        this._textures = textures;
+
+        /**
+         * Normals perpendicular to the Cube's face vertices.
+         * @type {Number[]}
+         */
+        this._normals = normals;
+    }
+    /**
+     * Positions of the cube's vertices.
+     * @type {Number[]}
+     */
+    get positions() {
+        return this._positions;
+    }
+
+    /**
+     * Triagle definitions of the cube faces.
+     * @type {Number[]}
+     */
+    get indices() {
+        return this._indices;
+    }
+
+    /**
+     * Color codes of the cube's faces.
+     * @type {Number[]}
+     */
+    get colors() {
+        return this._colors;
+    }
+
+    /**
+     * Texture mapping for cube's faces.
+     * @type {Number[]}
+     */
+    get textures() {
+        return this._textures;
+    }
+
+    /**
+     * Normals perpendicular to the Cube's face vertices.
+     * @type {Number[]}
+     */
+    get normals() {
+        return this._normals;
+    }
+}
 
 /**
  * Positions of the cube's vertices.
@@ -52,7 +133,7 @@ const positions = [
  * Colors of the Cube's vertices.
  * @type {Number[]}
  */
-const colors = function generateColors() {
+const colors = function GenerateColors() {
     /**
      * Duplicates "an array" "n times" within itself.
      * @param {Number[]} an_array 
@@ -99,39 +180,47 @@ const indices = [
     20, 21, 22, 20, 22, 23,   // left
 ];
 
+/**
+ * The texture coordinates corresponding to each vertex of each face.
+ * @type {Number[]}
+ */
 const texture = [
     // Front
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
+    0.0, 0.0,
+    1.0, 0.0,
+    1.0, 1.0,
+    0.0, 1.0,
     // Back
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
+    0.0, 0.0,
+    1.0, 0.0,
+    1.0, 1.0,
+    0.0, 1.0,
     // Top
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
+    0.0, 0.0,
+    1.0, 0.0,
+    1.0, 1.0,
+    0.0, 1.0,
     // Bottom
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
+    0.0, 0.0,
+    1.0, 0.0,
+    1.0, 1.0,
+    0.0, 1.0,
     // Right
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
+    0.0, 0.0,
+    1.0, 0.0,
+    1.0, 1.0,
+    0.0, 1.0,
     // Left
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-  ];
+    0.0, 0.0,
+    1.0, 0.0,
+    1.0, 1.0,
+    0.0, 1.0,
+];
 
+/**
+ * Surface normals for each vertex. This is a vector that's perpendicular to the face at that vertex.
+ * @type {Number[]}
+ */
 const normals = [
     // Front
     0.0, 0.0, 1.0,
@@ -169,3 +258,9 @@ const normals = [
     -1.0, 0.0, 0.0,
     -1.0, 0.0, 0.0
 ];
+
+const cube_object = new CubeObject(positions, indices, colors, texture, normals);
+
+export {
+    cube_object
+};

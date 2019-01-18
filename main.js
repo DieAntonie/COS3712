@@ -9,7 +9,7 @@ import {
 } from './buffers.js';
 
 import {
-    loadTexture
+    LoadTexture
 } from './textures.js';
 
 /**
@@ -44,7 +44,7 @@ function main() {
     /**
      * @type {WebGLTexture}
      */
-    const texture = loadTexture(gl, './power_of_two_hd.jpg');
+    const texture = LoadTexture(gl, './power_of_two_hd.jpg');
 
     /**
      * Time of last animation
