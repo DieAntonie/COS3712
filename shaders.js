@@ -4,7 +4,7 @@
 * Vertex shader program source code.
 * @type {String}
 */
-const vsSource = `
+const flat_vertex_shader_source = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
 
@@ -23,7 +23,7 @@ const vsSource = `
 * Fragment shader program source code.
 * @type {String}
 */
-const fsSource = `
+const flat_fragment_shader_source = `
     varying lowp vec4 vColor;
 
     void main() {
@@ -31,6 +31,38 @@ const fsSource = `
     }
 `;
 
+/**
+* Vertex shader program source code.
+* @type {String}
+*/
+const texture_vertex_shader_source = `
+    attribute vec4 aVertexPosition;
+    attribute vec2 aTextureCoord;
+
+    uniform mat4 uModelViewMatrix;
+    uniform mat4 uProjectionMatrix;
+
+    varying highp vec2 vTextureCoord;
+
+    void main() {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        vTextureCoord = aTextureCoord;
+    }
+`;
+
+/**
+* Fragment shader program source code.
+* @type {String}
+*/
+const texture_fragment_shader_source = `
+    varying highp vec2 vTextureCoord;
+
+    uniform sampler2D uSampler;
+
+    void main(void) {
+        gl_FragColor = texture2D(uSampler, vTextureCoord);
+    }
+`;
 /**
 * Initialize a shader program, so WebGL knows how to draw our data.
 * @param {WebGLRenderingContext} gl WebGL rendering context.
@@ -42,34 +74,68 @@ function initShaderProgram(gl) {
     /**
     * @type {WebGLShader} WebGL shader.
     */
-    const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
+    const flat_vertex_shader = loadShader(gl, gl.VERTEX_SHADER, flat_vertex_shader_source);
 
     /**
     * @type {WebGLShader} WebGL shader.
     */
-    const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+    const flat_fragment_shader = loadShader(gl, gl.FRAGMENT_SHADER, flat_fragment_shader_source);
+
+    /**
+    * @type {WebGLShader} WebGL shader.
+    */
+    const texture_vertex_shader = loadShader(gl, gl.VERTEX_SHADER, texture_vertex_shader_source);
+
+    /**
+    * @type {WebGLShader} WebGL shader.
+    */
+    const texture_fragment_shader = loadShader(gl, gl.FRAGMENT_SHADER, texture_fragment_shader_source);
 
     /**
     * @type {WebGLProgram} WebGL shader.
     */
-    const shaderProgram = gl.createProgram();
+    const flat_shader_program = gl.createProgram();
 
     // Attatch the vertex shader to the shader program.
-    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(flat_shader_program, flat_vertex_shader);
 
     // Attatch the fragment shader to the shader program.
-    gl.attachShader(shaderProgram, fragmentShader);
+    gl.attachShader(flat_shader_program, flat_fragment_shader);
 
     // Link the shader program to the webGL rendering context.
-    gl.linkProgram(shaderProgram);
+    gl.linkProgram(flat_shader_program);
 
     // If creating the shader program failed, alert
-    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-        alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+    if (!gl.getProgramParameter(flat_shader_program, gl.LINK_STATUS)) {
+        alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(flat_shader_program));
         return null;
     }
 
-    return new ProgramData(gl, shaderProgram);
+    const flat_program_data = new FlatProgramData(gl, flat_shader_program);
+
+    /**
+    * @type {WebGLProgram} WebGL shader.
+    */
+    const texture_shader_program = gl.createProgram();
+
+    // Attatch the vertex shader to the shader program.
+    gl.attachShader(texture_shader_program, texture_vertex_shader);
+
+    // Attatch the fragment shader to the shader program.
+    gl.attachShader(texture_shader_program, texture_fragment_shader);
+
+    // Link the shader program to the webGL rendering context.
+    gl.linkProgram(texture_shader_program);
+
+    // If creating the shader program failed, alert
+    if (!gl.getProgramParameter(texture_shader_program, gl.LINK_STATUS)) {
+        alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(texture_shader_program));
+        return null;
+    }
+
+    const texture_program_data = new TexturedProgramData(gl, flat_shader_program);
+
+    return texture_program_data;
 }
 
 /**
@@ -102,16 +168,29 @@ function loadShader(gl, type, source) {
 }
 
 class ProgramData {
-    constructor(gl, shaderProgram) {
-        this.program = shaderProgram;
+    constructor(gl, shader_program, mode) {
+        this.program = shader_program;
         this.attribLocations = {
-            vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-            vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
+            vertexPosition: gl.getAttribLocation(shader_program, 'aVertexPosition'),
+            vertexColor: gl.getAttribLocation(shader_program, mode)
         };
         this.uniformLocations = {
-            projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-            modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            projectionMatrix: gl.getUniformLocation(shader_program, 'uProjectionMatrix'),
+            modelViewMatrix: gl.getUniformLocation(shader_program, 'uModelViewMatrix'),
+            uSampler = gl.getUniformLocation(shader_program, 'uSampler')
         };
+    }
+}
+
+class FlatProgramData extends ProgramData {
+    constructor(gl, shader_program) {
+        super(gl, shader_program, 'aVertexColor')
+    }
+}
+
+class TexturedProgramData extends ProgramData {
+    constructor(gl, shader_program) {
+        super(gl, shader_program, 'aTextureCoord');
     }
 }
 
