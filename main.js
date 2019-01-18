@@ -8,6 +8,10 @@ import {
     BufferData
 } from './buffers.js';
 
+import {
+    loadTexture
+} from './textures.js';
+
 /**
  * Set up the WebGL context and start rendering content.
  */
