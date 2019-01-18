@@ -59,15 +59,13 @@ const texture_fragment_shader_source = `
 
     uniform sampler2D uSampler;
 
-    void main(void) {
+    void main() {
         gl_FragColor = texture2D(uSampler, vTextureCoord);
     }
 `;
 /**
 * Initialize a shader program, so WebGL knows how to draw our data.
 * @param {WebGLRenderingContext} gl WebGL rendering context.
-* @param {String} vsSource Vertex shader program source code.
-* @param {String} fsSource Fragment shader program source code.
 * @returns {ProgramData} WebGL program data.
 */
 function initShaderProgram(gl) {
@@ -80,16 +78,6 @@ function initShaderProgram(gl) {
     * @type {WebGLShader} WebGL shader.
     */
     const flat_fragment_shader = loadShader(gl, gl.FRAGMENT_SHADER, flat_fragment_shader_source);
-
-    /**
-    * @type {WebGLShader} WebGL shader.
-    */
-    const texture_vertex_shader = loadShader(gl, gl.VERTEX_SHADER, texture_vertex_shader_source);
-
-    /**
-    * @type {WebGLShader} WebGL shader.
-    */
-    const texture_fragment_shader = loadShader(gl, gl.FRAGMENT_SHADER, texture_fragment_shader_source);
 
     /**
     * @type {WebGLProgram} WebGL shader.
@@ -114,6 +102,16 @@ function initShaderProgram(gl) {
     const flat_program_data = new FlatProgramData(gl, flat_shader_program);
 
     /**
+    * @type {WebGLShader} WebGL shader.
+    */
+    const texture_vertex_shader = loadShader(gl, gl.VERTEX_SHADER, texture_vertex_shader_source);
+
+    /**
+    * @type {WebGLShader} WebGL shader.
+    */
+    const texture_fragment_shader = loadShader(gl, gl.FRAGMENT_SHADER, texture_fragment_shader_source);
+
+    /**
     * @type {WebGLProgram} WebGL shader.
     */
     const texture_shader_program = gl.createProgram();
@@ -133,7 +131,7 @@ function initShaderProgram(gl) {
         return null;
     }
 
-    const texture_program_data = new TexturedProgramData(gl, flat_shader_program);
+    const texture_program_data = new TexturedProgramData(gl, texture_shader_program);
 
     return texture_program_data;
 }
@@ -177,7 +175,7 @@ class ProgramData {
         this.uniformLocations = {
             projectionMatrix: gl.getUniformLocation(shader_program, 'uProjectionMatrix'),
             modelViewMatrix: gl.getUniformLocation(shader_program, 'uModelViewMatrix'),
-            uSampler = gl.getUniformLocation(shader_program, 'uSampler')
+            uSampler: gl.getUniformLocation(shader_program, 'uSampler')
         };
     }
 }
