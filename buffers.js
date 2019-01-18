@@ -9,6 +9,10 @@ import {
     colors as square_colors
 } from './square.js';
 
+import {
+    textureCoordinates as cube_texture
+} from './textures.js'
+
 /**
  * Create buffer.
  * @param {WebGLRenderingContext} gl WebGL rendering context.
@@ -80,6 +84,12 @@ function initBuffers(gl) {
     const cube_colorBuffer = gl.createBuffer();
 
     /**
+     * Buffer to store the vertex colors of a cube.
+     * @type {WebGLBuffer} WebGL buffer.
+     */
+    const cube_textureBuffer = gl.createBuffer();
+
+    /**
      * Buffer to store the element of a cube.
      * @type {WebGLBuffer} WebGL buffer.
      */
@@ -90,6 +100,9 @@ function initBuffers(gl) {
 
     // Populate color buffer with color data.
     populateArrayBuffer(cube_colorBuffer, cube_colors);
+
+    // Populate color buffer with color data.
+    populateArrayBuffer(cube_textureBuffer, cube_texture);
 
     // Populate element buffer with element data.
     populateElementBuffer(cube_indexBuffer, cube_indices);
@@ -102,6 +115,7 @@ function initBuffers(gl) {
         cube_buffers: {
             position: cube_positionBuffer,
             color: cube_colorBuffer,
+            texture: cube_textureBuffer,
             indices: cube_indexBuffer
         }
     });
@@ -116,6 +130,7 @@ class BufferData {
         this.cube_buffers = {
             position: obj.cube_buffers.position,
             color: obj.cube_buffers.color,
+            texture: obj.cube_buffers.texture,
             indices: obj.cube_buffers.indices
         };
     };
