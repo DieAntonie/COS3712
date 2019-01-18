@@ -394,6 +394,10 @@ function drawTextureCubeScene(gl, program_data, buffer_data, texture, squareRota
         squareRotation,   // amount to rotate in radians
         [2, -2, 0]);       // axis to rotate around
 
+    const normalMatrix = mat4.create();
+    mat4.invert(normalMatrix, modelViewMatrix);
+    mat4.transpose(normalMatrix, normalMatrix);
+
     // Tell WebGL how to pull out the positions from the position buffer into the vertexPosition attribute.
     {
         const numComponents = 3;  // pull out 3 values per iteration
@@ -432,6 +436,26 @@ function drawTextureCubeScene(gl, program_data, buffer_data, texture, squareRota
             program_data.attribLocations.vertexColor);
     }
 
+    // Tell WebGL how to pull out the normals from
+    // the normal buffer into the vertexNormal attribute.
+    {
+        const numComponents = 3;
+        const type = gl.FLOAT;
+        const normalize = false;
+        const stride = 0;
+        const offset = 0;
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.cube_buffers.normals);
+        gl.vertexAttribPointer(
+            program_data.attribLocations.vertexNormal,
+            numComponents,
+            type,
+            normalize,
+            stride,
+            offset);
+        gl.enableVertexAttribArray(
+            program_data.attribLocations.vertexNormal);
+    }
+
     // Tell WebGL we want to affect texture unit 0
     gl.activeTexture(gl.TEXTURE0);
 
@@ -458,6 +482,12 @@ function drawTextureCubeScene(gl, program_data, buffer_data, texture, squareRota
         program_data.uniformLocations.modelViewMatrix,
         false,
         modelViewMatrix
+    );
+
+    gl.uniformMatrix4fv(
+        program_data.uniformLocations.normalMatrix,
+        false,
+        normalMatrix
     );
 
     {
