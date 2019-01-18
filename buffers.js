@@ -1,17 +1,15 @@
 import {
     positions as cube_positions,
     colors as cube_colors,
-    indices as cube_indices
+    indices as cube_indices,
+    texture as cube_texture,
+    normals as cube_normal
 } from './cube.js';
 
 import {
     positions as square_positions,
     colors as square_colors
 } from './square.js';
-
-import {
-    textureCoordinates as cube_texture
-} from './textures.js'
 
 /**
  * Create buffer.
@@ -90,6 +88,12 @@ function initBuffers(gl) {
     const cube_textureBuffer = gl.createBuffer();
 
     /**
+     * Buffer to store the vertex colors of a cube.
+     * @type {WebGLBuffer} WebGL buffer.
+     */
+    const cube_normalBuffer = gl.createBuffer();
+
+    /**
      * Buffer to store the element of a cube.
      * @type {WebGLBuffer} WebGL buffer.
      */
@@ -104,6 +108,9 @@ function initBuffers(gl) {
     // Populate color buffer with color data.
     populateArrayBuffer(cube_textureBuffer, cube_texture);
 
+    // Populate color buffer with color data.
+    populateArrayBuffer(cube_normalBuffer, cube_normal);
+
     // Populate element buffer with element data.
     populateElementBuffer(cube_indexBuffer, cube_indices);
 
@@ -116,7 +123,8 @@ function initBuffers(gl) {
             position: cube_positionBuffer,
             color: cube_colorBuffer,
             texture: cube_textureBuffer,
-            indices: cube_indexBuffer
+            indices: cube_indexBuffer,
+            normals: cube_normalBuffer
         }
     });
 }
@@ -131,6 +139,7 @@ class BufferData {
             position: obj.cube_buffers.position,
             color: obj.cube_buffers.color,
             texture: obj.cube_buffers.texture,
+            normals: obj.cube_buffers.normals,
             indices: obj.cube_buffers.indices
         };
     };
