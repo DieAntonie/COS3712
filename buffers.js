@@ -1,5 +1,5 @@
 import {
-    cube_object
+    cube_data
 } from './cube.js';
 
 import {
@@ -14,115 +14,155 @@ import {
  */
 function initBuffers(gl) {
 
-    /**
-     * Populate buffer with data.
-     * @param {Number} target Targeted Buffer type.
-     * @param {WebGLBuffer} webGLBuffer Web GL buffer.
-     * @param {Float32Array|Uint16Array} bufferData Buffer data.
-     */
-    function populateBuffer(target, webGLBuffer, bufferData) {
-
-        // Select the buffer to apply buffer operations to from here out.
-        gl.bindBuffer(target, webGLBuffer);
-
-        // Fill the current buffer.
-        gl.bufferData(target, bufferData, gl.STATIC_DRAW);
-    }
-
-    /**
-     * Populate element buffer with data.
-     * @param {WebGLBuffer} webGLBuffer Web GL buffer.
-     * @param {Number[]} bufferData Buffer data.
-     */
-    function populateElementBuffer(webGLBuffer, bufferData) {
-        populateBuffer(gl.ELEMENT_ARRAY_BUFFER, webGLBuffer, new Uint16Array(bufferData))
-    }
-
-    /**
-     * Populate array buffer with data.
-     * @param {WebGLBuffer} webGLBuffer Web GL buffer.
-     * @param {Number[]} bufferData Buffer data.
-     */
-    function populateArrayBuffer(webGLBuffer, bufferData) {
-        populateBuffer(gl.ARRAY_BUFFER, webGLBuffer, new Float32Array(bufferData))
-    }
-
-    /**
-     * Buffer to store the vertex positions.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const square_positionBuffer = gl.createBuffer();
-
-    /**
-     * Buffer to store the vertex colors.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const square_colorBuffer = gl.createBuffer();
-
-    // Populate position buffer with position data.
-    populateArrayBuffer(square_positionBuffer, square_positions);
-
-    // Populate color buffer with color data.
-    populateArrayBuffer(square_colorBuffer, square_colors);
-
-    /**
-     * Buffer to store the vertex positions of a cube.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const cube_positionBuffer = gl.createBuffer();
-
-    /**
-     * Buffer to store the vertex colors of a cube.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const cube_colorBuffer = gl.createBuffer();
-
-    /**
-     * Buffer to store the vertex colors of a cube.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const cube_textureBuffer = gl.createBuffer();
-
-    /**
-     * Buffer to store the vertex colors of a cube.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const cube_normalBuffer = gl.createBuffer();
-
-    /**
-     * Buffer to store the element of a cube.
-     * @type {WebGLBuffer} WebGL buffer.
-     */
-    const cube_indexBuffer = gl.createBuffer();
-
-    // Populate position buffer with position data.
-    populateArrayBuffer(cube_positionBuffer, cube_object.positions);
-
-    // Populate color buffer with color data.
-    populateArrayBuffer(cube_colorBuffer, cube_object.colors);
-
-    // Populate color buffer with color data.
-    populateArrayBuffer(cube_textureBuffer, cube_object.textures);
-
-    // Populate color buffer with color data.
-    populateArrayBuffer(cube_normalBuffer, cube_object.normals);
-
-    // Populate element buffer with element data.
-    populateElementBuffer(cube_indexBuffer, cube_object.indices);
+    const buffer_factory = new BufferFactory(gl);
 
     return new BufferData({
         square_buffers: {
-            position: square_positionBuffer,
-            color: square_colorBuffer,
+            position: buffer_factory.CreateAttributeBuffer(square_positions),
+            color: buffer_factory.CreateAttributeBuffer(square_colors),
         },
         cube_buffers: {
-            position: cube_positionBuffer,
-            color: cube_colorBuffer,
-            texture: cube_textureBuffer,
-            indices: cube_indexBuffer,
-            normals: cube_normalBuffer
+            position: buffer_factory.CreateAttributeBuffer(cube_data.positions),
+            color: buffer_factory.CreateAttributeBuffer(cube_data.colors),
+            texture: buffer_factory.CreateAttributeBuffer(cube_data.textures),
+            normals: buffer_factory.CreateAttributeBuffer(cube_data.normals),
+            indices: buffer_factory.CreateIndexBuffer(cube_data.indices)
         }
     });
+}
+
+/**
+ * A Buffer factory that provides easy tools for creating WebGLBuffers.
+ */
+class BufferFactory {
+    /**
+     * Instatiate a Buffer Factory.
+     * @param {WebGLRenderingContext} web_GL_rendering_context An interface to the OpenGL ES 2.0 graphics rendering.
+     * context for the drawing surface of an HTML <canvas> element.
+     */
+    constructor(web_GL_rendering_context) {
+        /**
+         * An interface to the OpenGL ES 2.0 graphics rendering.
+         * @type {WebGLRenderingContext} 
+         */
+        this._web_GL_rendering_context = web_GL_rendering_context;
+
+        /**
+         * Buffer containing vertex attributes, such as vertex coordinates, texture coordinate data, or vertex color
+         * data.
+         * @type {GLenum}
+         */
+        this._array_buffer = web_GL_rendering_context.ARRAY_BUFFER;
+
+        /**
+         * Buffer used for element indices.
+         * @type {GLenum}
+         */
+        this._element_array_buffer = web_GL_rendering_context.ELEMENT_ARRAY_BUFFER;
+
+        /**
+         * Contents of the buffer are likely to be used often and not change often.
+         * @type {GLenum}
+         */
+        this._static_draw = web_GL_rendering_context.STATIC_DRAW;
+    }
+
+    /**
+     * An interface to the OpenGL ES 2.0 graphics rendering.
+     * @type {WebGLRenderingContext} 
+     */
+    get web_GL_rendering_context()
+    {
+        return this._web_GL_rendering_context;
+    }
+
+    /**
+     * Creates and Initializes a WebGLBuffer storing data such as vertices or colors.
+     * @returns {WebGLBuffer} The WebGLBuffer object does not define any methods or properties of its own and its
+     * content is not directly accessible.
+     */
+    CreateBuffer() {
+        return this._web_GL_rendering_context.createBuffer();
+    }
+
+    /**
+     * Creates, Binds and Buffers a WebGLBuffer storing data such as vertex attributes.
+     * @param {Number[]} data Data that will be copied into the data store.
+     * @returns {WebGLBuffer} The WebGLBuffer object does not define any methods or properties of its own and its
+     * content is not directly accessible.
+     */
+    CreateAttributeBuffer(data) {
+        const attribute_buffer = this.CreateBuffer();
+        this.BufferAttributeData(attribute_buffer, data);
+        return attribute_buffer;
+    }
+
+    /**
+     * Creates, Binds and Buffers a WebGLBuffer storing data such as element indices.
+     * @param {Number[]} data Data that will be copied into the data store.
+     * @returns {WebGLBuffer} The WebGLBuffer object does not define any methods or properties of its own and its
+     * content is not directly accessible.
+     */
+    CreateIndexBuffer(data) {
+        const index_buffer = this.CreateBuffer();
+        this.BufferIndexData(index_buffer, data);
+        return index_buffer;
+    }
+
+    /**
+     * Binds a given WebGLBuffer to a target.
+     * @param {GLenum} target A GLenum specifying the binding point (target).
+     * @param {WebGLBuffer} buffer A WebGLBuffer to bind.
+     */
+    BindBuffer(target, buffer) {
+        this._web_GL_rendering_context.bindBuffer(target, buffer);
+    }
+
+    /**
+     * Binds a given Vertex atribute WebGLBuffer.
+     * @param {WebGLBuffer} buffer A WebGLBuffer to bind.
+     */
+    BindAttributeBuffer(buffer) {
+        this.BindBuffer(this._array_buffer, buffer);
+    }
+
+    /**
+     * Binds a given Element index WebGLBuffer.
+     * @param {WebGLBuffer} buffer A WebGLBuffer to bind.
+     */
+    BindIndexBuffer(buffer) {
+        this.BindBuffer(this._element_array_buffer, buffer);
+    }
+    
+    /**
+     * Initializes and creates the buffer object's data store.
+     * @param {GLenum} target A GLenum specifying the binding point (target).
+     * @param {ArrayBufferView} src_data Array that will be copied into the data store.
+     * @param {GLenum} usage A GLenum specifying the usage pattern of the datastore.
+     */
+    BufferData(target, src_data , usage) {
+        this._web_GL_rendering_context.bufferData(target, src_data, usage);
+    }
+    
+    /**
+     * Initializes and creates the buffer object's vertex attribute data store.
+     * @param {WebGLBuffer} buffer A Atribute WebGLBuffer to buffer.
+     * @param {ArrayBufferView} src_data Array that will be copied into the data store.
+     */
+    BufferAttributeData(buffer, src_data) {
+        this.BindAttributeBuffer(buffer);
+        this.BufferData(this._array_buffer, new Float32Array(src_data), this._static_draw);
+    }
+    
+    /**
+     * Initializes and creates the buffer object's element index data store.
+     * @param {WebGLBuffer} buffer A Index WebGLBuffer to buffer.
+     * @param {ArrayBufferView} src_data Array that will be copied into the data store.
+     */
+    BufferIndexData(buffer, src_data) {
+        this.BindIndexBuffer(buffer);
+        this.BufferData(this._element_array_buffer, new Uint16Array(src_data), this._static_draw);
+    }
 }
 
 class BufferData {
@@ -138,7 +178,7 @@ class BufferData {
             normals: obj.cube_buffers.normals,
             indices: obj.cube_buffers.indices
         };
-    };
-};
+    }
+}
 
 export { initBuffers, BufferData };

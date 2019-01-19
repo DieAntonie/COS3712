@@ -1,14 +1,14 @@
 /**
- * Cube object to be rendered.
+ * Cube data object to be rendered.
  * @property {Number[]} positions Positions of the cube's vertices.
  * @property {Number[]} indices Triagle definitions of the cube faces.
  * @property {Number[]} colors Color codes of the cube's faces.
  * @property {Number[]} textures Texture mapping for cube's faces.
  * @property {Number[]} normals Normals perpendicular to the Cube's face vertices.
  */
-class CubeObject {
+class CubeData {
     /**
-     * Instantiate a `CubeObject`.
+     * Instantiate a `CubeData` object.
      * @param {Number[]} positions Positions of the cube's vertices.
      * @param {Number[]} indices Triagle definitions of the cube faces.
      * @param {Number[]} colors Color codes of the cube's faces.
@@ -259,8 +259,8 @@ const normals = [
     -1.0, 0.0, 0.0
 ];
 
-const cube_object = new CubeObject(positions, indices, colors, texture, normals);
+const cube_data = new CubeData(positions, indices, colors, texture, normals);
 
 export {
-    cube_object
+    cube_data
 };

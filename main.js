@@ -178,9 +178,6 @@ function drawSquareScene(gl, program_data, buffer_data, squareRotation) {
             program_data.attribLocations.vertexColor);
     }
 
-    // Tell WebGL how to pull out the colors from the color buffer into the vertexColor attribute.
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer_data.cube_buffers.indices);
-
     // Tell WebGL to use our program when drawing
     gl.useProgram(program_data.program);
 
