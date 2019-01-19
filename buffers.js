@@ -32,7 +32,7 @@ function initBuffers(gl) {
 }
 
 /**
- * A Buffer factory that provides easy tools for creating WebGLBuffers.
+ * A Buffer factory that provides easy tools for creating, binding and buffering WebGLBuffers.
  */
 class BufferFactory {
     /**
@@ -71,8 +71,7 @@ class BufferFactory {
      * An interface to the OpenGL ES 2.0 graphics rendering.
      * @type {WebGLRenderingContext} 
      */
-    get web_GL_rendering_context()
-    {
+    get web_GL_rendering_context() {
         return this._web_GL_rendering_context;
     }
 
@@ -133,17 +132,17 @@ class BufferFactory {
     BindIndexBuffer(buffer) {
         this.BindBuffer(this._element_array_buffer, buffer);
     }
-    
+
     /**
      * Initializes and creates the buffer object's data store.
      * @param {GLenum} target A GLenum specifying the binding point (target).
      * @param {ArrayBufferView} src_data Array that will be copied into the data store.
      * @param {GLenum} usage A GLenum specifying the usage pattern of the datastore.
      */
-    BufferData(target, src_data , usage) {
+    BufferData(target, src_data, usage) {
         this._web_GL_rendering_context.bufferData(target, src_data, usage);
     }
-    
+
     /**
      * Initializes and creates the buffer object's vertex attribute data store.
      * @param {WebGLBuffer} buffer A Atribute WebGLBuffer to buffer.
@@ -153,7 +152,7 @@ class BufferFactory {
         this.BindAttributeBuffer(buffer);
         this.BufferData(this._array_buffer, new Float32Array(src_data), this._static_draw);
     }
-    
+
     /**
      * Initializes and creates the buffer object's element index data store.
      * @param {WebGLBuffer} buffer A Index WebGLBuffer to buffer.
