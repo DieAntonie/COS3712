@@ -81,7 +81,7 @@ class BufferFactory {
      * content is not directly accessible.
      */
     CreateBuffer() {
-        return this._web_GL_rendering_context.createBuffer();
+        return this.web_GL_rendering_context.createBuffer();
     }
 
     /**
@@ -114,7 +114,7 @@ class BufferFactory {
      * @param {WebGLBuffer} buffer A WebGLBuffer to bind.
      */
     BindBuffer(target, buffer) {
-        this._web_GL_rendering_context.bindBuffer(target, buffer);
+        this.web_GL_rendering_context.bindBuffer(target, buffer);
     }
 
     /**
@@ -140,7 +140,7 @@ class BufferFactory {
      * @param {GLenum} usage A GLenum specifying the usage pattern of the datastore.
      */
     BufferData(target, src_data, usage) {
-        this._web_GL_rendering_context.bufferData(target, src_data, usage);
+        this.web_GL_rendering_context.bufferData(target, src_data, usage);
     }
 
     /**
