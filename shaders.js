@@ -94,35 +94,6 @@ function initShaderProgram(gl) {
     return texture_program_data;
 }
 
-/**
-* Creates a shader of the given type, uploads the source and compiles it.
-* @param {WebGLRenderingContext} gl WebGL rendering context.
-* @param {Number} type Shader type to load.
-* @param {String} source Shader program source code.
-* @returns {WebGLShader} WebGL shader.
-*/
-function loadShader(gl, type, source) {
-    /**
-    * @type {WebGLShader}
-    */
-    const shader = gl.createShader(type);
-
-    // Send the source code to the shader object
-    gl.shaderSource(shader, source);
-
-    // Compile the shader program
-    gl.compileShader(shader);
-
-    // See if it compiled successfully
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        return null;
-    }
-
-    return shader;
-}
-
 class ProgramData {
     constructor(gl, shader_program, mode) {
         this.program = shader_program;
