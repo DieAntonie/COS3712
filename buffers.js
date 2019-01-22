@@ -1,35 +1,3 @@
-import {
-    cube_data
-} from './cube.js';
-
-import {
-    positions as square_positions,
-    colors as square_colors
-} from './square.js';
-
-/**
- * Create buffer.
- * @param {WebGLRenderingContext} gl WebGL rendering context.
- * @returns {BufferData} Complex object.
- */
-function initBuffers(gl) {
-
-    const buffer_factory = new BufferFactory(gl);
-
-    return new BufferData({
-        square_buffers: {
-            position: buffer_factory.CreateAttributeBuffer(square_positions),
-            color: buffer_factory.CreateAttributeBuffer(square_colors),
-        },
-        cube_buffers: {
-            position: buffer_factory.CreateAttributeBuffer(cube_data.positions),
-            color: buffer_factory.CreateAttributeBuffer(cube_data.colors),
-            texture: buffer_factory.CreateAttributeBuffer(cube_data.textures),
-            normals: buffer_factory.CreateAttributeBuffer(cube_data.normals),
-            indices: buffer_factory.CreateIndexBuffer(cube_data.indices)
-        }
-    });
-}
 
 /**
  * A Buffer factory that provides easy tools for creating, binding and buffering WebGLBuffers.
@@ -162,22 +130,85 @@ class BufferFactory {
         this.BindIndexBuffer(buffer);
         this.BufferData(this._element_array_buffer, new Uint16Array(src_data), this._static_draw);
     }
-}
 
-class BufferData {
-    constructor(obj) {
-        this.square_buffers = {
-            position: obj.square_buffers.position,
-            color: obj.square_buffers.color,
-        };
-        this.cube_buffers = {
-            position: obj.cube_buffers.position,
-            color: obj.cube_buffers.color,
-            texture: obj.cube_buffers.texture,
-            normals: obj.cube_buffers.normals,
-            indices: obj.cube_buffers.indices
-        };
+    /**
+     * Create a Buffered Object from an structured collection of object data.
+     * @param {{position: Number[], normal: Number[], fill: Number[], index: Number[]}} object_data Object data to buffer
+     */
+    BufferObject(object_data) {
+        const buffered_object = new BufferedObject();
+        buffered_object._position = object_data.position ? this.CreateAttributeBuffer(object_data.position) : undefined;
+        buffered_object._normal = object_data.normal ? this.CreateAttributeBuffer(object_data.normal) : undefined;
+        buffered_object._fill = object_data.fill ? this.CreateAttributeBuffer(object_data.fill) : undefined;
+        buffered_object._index = object_data.index ? this.CreateIndexBuffer(object_data.index) : undefined;
+        return buffered_object;
     }
 }
 
-export { initBuffers, BufferData };
+/**
+ * Object with buffered properties.
+ * @param {WebGLBuffer} position Positions of the objects vertices.
+ * @param {WebGLBuffer} fill Objects fill medium buffer.
+ * @param {WebGLBuffer} normal Surface normals for each vertex.
+ * @param {WebGLBuffer} index Indices of the objects vertices.
+ */
+class BufferedObject {
+    /**
+     * Instantiate a new buffered object
+     */
+    constructor() {
+        /**
+         * @type {WebGLBuffer}
+         */
+        this._position;
+
+        /**
+         * @type {WebGLBuffer}
+         */
+        this._fill;
+
+        /**
+         * @type {WebGLBuffer}
+         */
+        this._normal;
+
+        /**
+         * @type {WebGLBuffer}
+         */
+        this._index;
+    }
+
+    /**
+     * Positions of the objects vertices.
+     * @type {WebGLBuffer}
+     */
+    get position() {
+        return this._position;
+    }
+
+    /**
+     * Objects fill medium buffer.
+     * @type {WebGLBuffer}
+     */
+    get fill() {
+        return this._fill;
+    }
+
+    /**
+     * Surface normals for each vertex.
+     * @type {WebGLBuffer}
+     */
+    get normal() {
+        return this._normal;
+    }
+
+    /**
+     * Indices of the objects vertices.
+     * @type {WebGLBuffer}
+     */
+    get index() {
+        return this._index;
+    }
+}
+
+export { BufferFactory, BufferedObject };

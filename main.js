@@ -1,11 +1,15 @@
 import {
+    cube_data
+} from './cube.js'
+
+import {
     initShaderProgram,
     ProgramData
 } from './shaders.js';
 
 import {
-    initBuffers,
-    BufferData
+    BufferFactory,
+    BufferedObject
 } from './buffers.js';
 
 import {
@@ -37,9 +41,14 @@ function main() {
     const program_data = initShaderProgram(gl);
 
     /**
-     * @type {BufferData}
+     * @type {BufferFactory}
      */
-    const buffer_data = initBuffers(gl);
+    const buffer_factory = new BufferFactory(gl);
+
+    /**
+     * @type {BufferedObject}
+     */
+    const buffer_data = buffer_factory.BufferObject(cube_data);
 
     /**
      * @type {WebGLTexture}
@@ -81,7 +90,7 @@ function main() {
  * 
  * @param {WebGLRenderingContext} gl WebGL rendering context. 
  * @param {ProgramData} program_data 
- * @param {BufferData} buffer_data 
+ * @param {BufferedObject} buffer_data 
  * @param {Number} squareRotation Current rotation of the square. 
  */
 function drawSquareScene(gl, program_data, buffer_data, squareRotation) {
@@ -147,7 +156,7 @@ function drawSquareScene(gl, program_data, buffer_data, squareRotation) {
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.square_buffers.position);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.position);
         gl.vertexAttribPointer(
             program_data.attribLocations.vertexPosition,
             numComponents,
@@ -166,7 +175,7 @@ function drawSquareScene(gl, program_data, buffer_data, squareRotation) {
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.square_buffers.color);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.fill);
         gl.vertexAttribPointer(
             program_data.attribLocations.vertexColor,
             numComponents,
@@ -203,7 +212,7 @@ function drawSquareScene(gl, program_data, buffer_data, squareRotation) {
  * 
  * @param {WebGLRenderingContext} gl WebGL rendering context. 
  * @param {ProgramData} program_data 
- * @param {BufferData} buffer_data 
+ * @param {BufferedObject} buffer_data 
  * @param {Number} squareRotation Current rotation of the square. 
  */
 function drawFlatCubeScene(gl, program_data, buffer_data, squareRotation) {
@@ -269,7 +278,7 @@ function drawFlatCubeScene(gl, program_data, buffer_data, squareRotation) {
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.cube_buffers.position);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.position);
         gl.vertexAttribPointer(
             program_data.attribLocations.vertexPosition,
             numComponents,
@@ -288,7 +297,7 @@ function drawFlatCubeScene(gl, program_data, buffer_data, squareRotation) {
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.cube_buffers.color);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.fill);
         gl.vertexAttribPointer(
             program_data.attribLocations.vertexColor,
             numComponents,
@@ -301,7 +310,7 @@ function drawFlatCubeScene(gl, program_data, buffer_data, squareRotation) {
     }
 
     // Tell WebGL how to pull out the colors from the color buffer into the vertexColor attribute.
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer_data.cube_buffers.indices);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer_data.index);
 
     // Tell WebGL to use our program when drawing
     gl.useProgram(program_data.program);
@@ -331,7 +340,7 @@ function drawFlatCubeScene(gl, program_data, buffer_data, squareRotation) {
  * 
  * @param {WebGLRenderingContext} gl WebGL rendering context. 
  * @param {ProgramData} program_data 
- * @param {BufferData} buffer_data 
+ * @param {BufferedObject} buffer_data 
  * @param {WebGLTexture} texture 
  * @param {Number} squareRotation Current rotation of the square. 
  */
@@ -402,7 +411,7 @@ function drawTextureCubeScene(gl, program_data, buffer_data, texture, squareRota
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.cube_buffers.position);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.position);
         gl.vertexAttribPointer(
             program_data.attribLocations.vertexPosition,
             numComponents,
@@ -421,7 +430,7 @@ function drawTextureCubeScene(gl, program_data, buffer_data, texture, squareRota
         const normalize = false;  // don't normalize
         const stride = 0;         // how many bytes to get from one set of values to the next, 0 = use type and numComponents above
         const offset = 0;         // how many bytes inside the buffer to start from
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.cube_buffers.texture);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.fill);
         gl.vertexAttribPointer(
             program_data.attribLocations.vertexColor,
             numComponents,
@@ -441,7 +450,7 @@ function drawTextureCubeScene(gl, program_data, buffer_data, texture, squareRota
         const normalize = false;
         const stride = 0;
         const offset = 0;
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.cube_buffers.normals);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_data.normal);
         gl.vertexAttribPointer(
             program_data.attribLocations.vertexNormal,
             numComponents,
@@ -460,7 +469,7 @@ function drawTextureCubeScene(gl, program_data, buffer_data, texture, squareRota
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
     // Tell WebGL how to pull out the colors from the color buffer into the vertexColor attribute.
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer_data.cube_buffers.indices);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer_data.index);
 
     // Tell WebGL to use our program when drawing
     gl.useProgram(program_data.program);

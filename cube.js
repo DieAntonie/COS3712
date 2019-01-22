@@ -50,7 +50,7 @@ class CubeData {
      * Positions of the cube's vertices.
      * @type {Number[]}
      */
-    get positions() {
+    get position() {
         return this._positions;
     }
 
@@ -58,7 +58,7 @@ class CubeData {
      * Triagle definitions of the cube faces.
      * @type {Number[]}
      */
-    get indices() {
+    get index() {
         return this._indices;
     }
 
@@ -66,7 +66,7 @@ class CubeData {
      * Color codes of the cube's faces.
      * @type {Number[]}
      */
-    get colors() {
+    get color() {
         return this._colors;
     }
 
@@ -74,7 +74,7 @@ class CubeData {
      * Texture mapping for cube's faces.
      * @type {Number[]}
      */
-    get textures() {
+    get texture() {
         return this._textures;
     }
 
@@ -82,8 +82,16 @@ class CubeData {
      * Normals perpendicular to the Cube's face vertices.
      * @type {Number[]}
      */
-    get normals() {
+    get normal() {
         return this._normals;
+    }
+
+    /**
+     * Normals perpendicular to the Cube's face vertices.
+     * @type {Number[]}
+     */
+    get fill() {
+        return this._textures || this._colors;
     }
 }
 
