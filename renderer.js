@@ -30,6 +30,30 @@ class Renderer {
          * @type {BufferedObject}
          */
         this._buffered_object = buffered_object;
+
+        /**
+         * Perspective matrix, a special matrix that is used to simulate the distortion of perspective in a camera.
+         * @type {mat4} 4x4 Matrix.
+         */
+        this._projection_matrix = mat4.create();
+
+        /**
+         * Perspective matrix, a special matrix that is used to simulate the distortion of perspective in a camera.
+         * @type {mat4} 4x4 Matrix.
+         */
+        this._model_view_matrix = mat4.create();
+
+        /**
+         * Perspective matrix, a special matrix that is used to simulate the distortion of perspective in a camera.
+         * @type {mat4} 4x4 Matrix.
+         */
+        this._normal_matrix = mat4.create();
+
+        /**
+         * Perspective matrix, a special matrix that is used to simulate the distortion of perspective in a camera.
+         * @type {Number} 4x4 Matrix.
+         */
+        this._square_rotation = 0.0;
     }
 
     /**
@@ -51,6 +75,31 @@ class Renderer {
      */
     get buffered_object() {
         return this._buffered_object;
+    }
+
+    get field_of_view() {
+        return 45 * Math.PI / 180;
+    }
+
+    get aspect() {
+        return this.web_GL_rendering_context.canvas.clientWidth /
+            this.web_GL_rendering_context.canvas.clientHeight;;
+    }
+
+    /**
+     * Minimum visibility threshold.
+     * @type {Number}
+     */
+    get zNear() {
+        return 0.1;
+    }
+
+    /**
+     * Maximum visibility threshold.
+     * @type {Number}
+     */
+    get zFar() {
+        return 100.0;
     }
 
     /**
@@ -129,5 +178,15 @@ class Renderer {
      */
     DrawElements(mode, count, type, offset) {
         this.web_GL_rendering_context.drawElements(mode, count, type, offset);
+    }
+
+    ClearScreen() {
+        this.web_GL_rendering_context.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+        this.web_GL_rendering_context.clearDepth(1.0);                 // Clear everything
+        this.web_GL_rendering_context.enable(gl.DEPTH_TEST);           // Enable depth testing
+        this.web_GL_rendering_context.depthFunc(gl.LEQUAL);            // Near things obscure far things
+
+        // Clear the canvas before we start drawing on it.
+        this.web_GL_rendering_context.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     }
 }
