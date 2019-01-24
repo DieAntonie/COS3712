@@ -83,7 +83,7 @@ const texture_fragment_shader_source = `
 /**
 * Initialize a shader program, so WebGL knows how to draw our data.
 * @param {WebGLRenderingContext} gl WebGL rendering context.
-* @returns {ProgramData} WebGL program data.
+* @returns {ShaderProgram} WebGL program data.
 */
 function initShaderProgram(gl) {
 
@@ -94,7 +94,7 @@ function initShaderProgram(gl) {
     return texture_program_data;
 }
 
-class ProgramData {
+class ShaderProgram {
     constructor(gl, shader_program, mode) {
         this.program = shader_program;
         this.attribLocations = {
@@ -330,16 +330,16 @@ class ShaderProgramFactory {
     }
 }
 
-class FlatProgramData extends ProgramData {
+class FlatProgramData extends ShaderProgram {
     constructor(gl, shader_program) {
         super(gl, shader_program, 'aVertexColor');
     }
 }
 
-class TexturedProgramData extends ProgramData {
+class TexturedProgramData extends ShaderProgram {
     constructor(gl, shader_program) {
         super(gl, shader_program, 'aTextureCoord');
     }
 }
 
-export { initShaderProgram, ProgramData };
+export { initShaderProgram, ShaderProgram as ProgramData };

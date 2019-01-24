@@ -136,11 +136,13 @@ class BufferFactory {
      * @param {{position: Number[], normal: Number[], fill: Number[], index: Number[]}} object_data Object data to buffer
      */
     BufferObject(object_data) {
-        const buffered_object = new BufferedObject();
-        buffered_object._position = object_data.position ? this.CreateAttributeBuffer(object_data.position) : undefined;
-        buffered_object._normal = object_data.normal ? this.CreateAttributeBuffer(object_data.normal) : undefined;
-        buffered_object._fill = object_data.fill ? this.CreateAttributeBuffer(object_data.fill) : undefined;
-        buffered_object._index = object_data.index ? this.CreateIndexBuffer(object_data.index) : undefined;
+        const buffered_object = new BufferedObject(
+            this.web_GL_rendering_context,
+            object_data.position ? this.CreateAttributeBuffer(object_data.position) : undefined,
+            object_data.fill ? this.CreateAttributeBuffer(object_data.fill) : undefined,
+            object_data.normal ? this.CreateAttributeBuffer(object_data.normal) : undefined,
+            object_data.index ? this.CreateIndexBuffer(object_data.index) : undefined
+        );
         return buffered_object;
     }
 }
@@ -154,28 +156,44 @@ class BufferFactory {
  */
 class BufferedObject {
     /**
-     * Instantiate a new buffered object
+     * Instantiate a new buffered object.
+     * @param {WebGLRenderingContext} web_GL_rendering_context An interface to the OpenGL ES 2.0 graphics rendering.
+     * context for the drawing surface of an HTML <canvas> element.
+     * @param {WebGLBuffer} [position] Positions of the objects vertices.
+     * @param {WebGLBuffer} [fill] Objects fill medium buffer.
+     * @param {WebGLBuffer} [normal] Surface normals for each vertex.
+     * @param {WebGLBuffer} [index] Indices of the objects vertices.
      */
-    constructor() {
+    constructor(web_GL_rendering_context, position, fill, normal, index) {
         /**
-         * @type {WebGLBuffer}
+         * An interface to the OpenGL ES 2.0 graphics rendering.
+         * @type {WebGLRenderingContext} 
          */
-        this._position;
+        this._web_GL_rendering_context = web_GL_rendering_context;
 
         /**
+         * Positions of the objects vertices.
          * @type {WebGLBuffer}
          */
-        this._fill;
+        this._position = position || web_GL_rendering_context.createBuffer();
 
         /**
+         * Objects fill medium buffer.
          * @type {WebGLBuffer}
          */
-        this._normal;
+        this._fill = fill || web_GL_rendering_context.createBuffer();
 
         /**
+         * Surface normals for each vertex.
          * @type {WebGLBuffer}
          */
-        this._index;
+        this._normal = normal || web_GL_rendering_context.createBuffer();
+
+        /**
+         * Indices of the objects vertices.
+         * @type {WebGLBuffer}
+         */
+        this._index = index || web_GL_rendering_context.createBuffer();
     }
 
     /**

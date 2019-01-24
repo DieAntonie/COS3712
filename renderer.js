@@ -1,6 +1,9 @@
 import {
     BufferedObject
-} from './buffers.js'
+} from './buffers.js';
+import {
+    LoadTexture
+} from './textures.js';
 
 /**
  * Rendering assistance funtionality.
@@ -54,6 +57,62 @@ class Renderer {
          * @type {Number} 4x4 Matrix.
          */
         this._square_rotation = 0.0;
+
+        /**
+         * Perspective matrix, a special matrix that is used to simulate the distortion of perspective in a camera.
+         * @type {GLenum} 4x4 Matrix.
+         */
+        this._float = web_GL_rendering_context.FLOAT;
+
+        /**
+         * Buffer containing vertex attributes, such as vertex coordinates, texture coordinate data, or vertex color
+         * data.
+         * @type {GLenum}
+         */
+        this._array_buffer = web_GL_rendering_context.ARRAY_BUFFER;
+
+        /**
+         * Buffer used for element indices.
+         * @type {GLenum}
+         */
+        this._element_array_buffer = web_GL_rendering_context.ELEMENT_ARRAY_BUFFER;
+
+        /**
+         * The texture unit to make active.
+         * @type {WebGLTexture}
+         */
+        this._texture = LoadTexture(web_GL_rendering_context, './power_of_two_hd.jpg');
+
+        /**
+         * The texture unit to make active.
+         * @type {GLenum}
+         */
+        this._texture_0 = web_GL_rendering_context.TEXTURE0;
+
+        /**
+         * A GLenum specifying the two-dimensional texture binding point (target).
+         * @type {GLenum}
+         */
+        this._texture_2D = web_GL_rendering_context.TEXTURE_2D;
+
+        mat4.perspective(
+            this._projection_matrix,
+            this.field_of_view,
+            this.aspect,
+            this.zNear,
+            this.zFar
+        );
+        
+        // Now move the drawing position a bit to where we want to
+        // start drawing the square.
+        mat4.translate(
+            this._model_view_matrix,    // destination matrix
+            this._model_view_matrix,    // matrix to translate
+            [-0.0, 0.0, -6.0]           // amount to translate
+        );  
+
+        mat4.invert(this._normal_matrix, this._model_view_matrix);
+        mat4.transpose(this._normal_matrix, this._normal_matrix);
     }
 
     /**
@@ -77,10 +136,18 @@ class Renderer {
         return this._buffered_object;
     }
 
+    /**
+     * Field of view is 45 degrees in radians.
+     * @type {Number} Degrees in radians.
+     */
     get field_of_view() {
         return 45 * Math.PI / 180;
     }
 
+    /**
+     * Ratio that matches the display size of the canvas.
+     * @type {Number} width/height 
+     */
     get aspect() {
         return this.web_GL_rendering_context.canvas.clientWidth /
             this.web_GL_rendering_context.canvas.clientHeight;;
@@ -128,15 +195,15 @@ class Renderer {
      * object and specifies its layout.
      * @param {GLuint} index A GLuint specifying the index of the vertex attribute that is to be modified.
      * @param {GLint} size A GLint specifying the number of components per vertex attribute. Must be 1, 2, 3, or 4.
-     * @param {GLenum} type A GLenum specifying the data type of each component in the array.
-     * @param {GLboolean} normalized A GLboolean specifying whether integer data values should be normalized into a
+     * @param {GLenum} [type] A GLenum specifying the data type of each component in the array.
+     * @param {GLboolean} [normalized] A GLboolean specifying whether integer data values should be normalized into a
      * certain range when being casted to a float.
-     * @param {GLsizei} stride A GLsizei specifying the offset in bytes between the beginning of consecutive vertex
+     * @param {GLsizei} [stride] A GLsizei specifying the offset in bytes between the beginning of consecutive vertex
      * attributes.
-     * @param {GLintptr} offset A GLintptr specifying an offset in bytes of the first component in the vertex
+     * @param {GLintptr} [offset] A GLintptr specifying an offset in bytes of the first component in the vertex
      * attribute array.
      */
-    VertexAttribPointer(index, size, type, normalized, stride, offset) {
+    VertexAttribPointer(index, size, type = this._float, normalized = false, stride = 0, offset = 0) {
         this.web_GL_rendering_context.vertexAttribPointer(index, size, type, normalized, stride, offset);
     }
 
@@ -146,6 +213,23 @@ class Renderer {
      */
     EnableVertexAttribArray(index) {
         this.web_GL_rendering_context.enableVertexAttribArray(index)
+    }
+
+    /**
+     * Specifies which texture unit to make active.
+     * @param {GLenum} texture The texture unit to make active.
+     */
+    ActiveTexture(texture) {
+        this.web_GL_rendering_context.activeTexture(texture);
+    }
+
+    /**
+     * Binds a given WebGLTexture to a target (binding point).
+     * @param {GLenum} target A GLenum specifying the binding point (target).
+     * @param {WebGLTexture} texture A WebGLTexture object to bind.
+     */
+    BindTexture(target, texture) {
+        this.web_GL_rendering_context.bindTexture(target, texture);
     }
 
     /**
@@ -189,4 +273,53 @@ class Renderer {
         // Clear the canvas before we start drawing on it.
         this.web_GL_rendering_context.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     }
+
+    /**
+     * Binds a given WebGLBuffer to a target.
+     * @param {GLenum} target A GLenum specifying the binding point (target).
+     * @param {WebGLBuffer} buffer A WebGLBuffer to bind.
+     */
+    BindBuffer(target, buffer) {
+        this.web_GL_rendering_context.bindBuffer(target, buffer);
+    }
+
+    /**
+     * Specify in what order the attributes are stored, and what data type they are in.
+     * @param {WebGLBuffer} buffer A WebGLBuffer to bind.
+     * @param {GLuint} index A GLuint specifying the index of the vertex attribute that is to be modified.
+     * @param {GLint} size A GLint specifying the number of components per vertex attribute. Must be 1, 2, 3, or 4.
+     */
+    BufferAttribute(buffer, index, size) {
+        this.BindBuffer(this._array_buffer, buffer);
+        this.VertexAttribPointer(index, size);
+        this.EnableVertexAttribArray(index);
+    }
+
+    ApplyTexture(texture) {
+        this.ActiveTexture(this._texture_0);
+        this.BindTexture(this._texture_2D, this._texture);
+    }
+
+    Render() {
+        ClearScreen();
+        this.BufferAttribute(
+            this.buffered_object.position,
+            this.GetAttribLocation(this.shader_program, 'aVertexPosition'),
+            3
+        );
+        this.BufferAttribute(
+            this.buffered_object.fill,
+            this.GetAttribLocation(this.shader_program, 'aTextureCoord'),
+            2
+        );
+        this.BufferAttribute(
+            this.buffered_object.normal,
+            this.GetAttribLocation(this.shader_program, 'aVertexNormal'),
+            3
+        );
+        this.web_GL_rendering_context.useProgram(this.shader_program);
+
+        
+    }
+    
 }
