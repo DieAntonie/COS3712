@@ -87,6 +87,25 @@ class Vector extends Array {
         }
         return this.copy().map((value, index) => value - (subtraction_vector[index]));
     }
+
+    /**
+     * Returns the product value of this vector times(*) the argument matrix.
+     * @param {Matrix} multiplication_matrix Matrix value to be multiplied.
+     * @returns {Vector} = `this` * `multiplication_matrix`
+     */
+    times(multiplication_matrix) {
+        if (this.length !== multiplication_matrix.length) {
+            throw `Vector multiplication argument value miss-match. Argument row count(${multiplication_matrix.length})
+             must match this Vector column count(${this.length}).`;
+        }
+        let product_vector = Reflect.construct(multiplication_matrix[0].constructor, []);
+        for (let column_index = 0; column_index < multiplication_matrix[0].length; column_index++) {
+            multiplication_matrix.forEach((column_vector, vector_index) => {
+                product_vector[column_index] += this[vector_index] * column_vector[column_index]
+            })
+        }
+        return product_vector;
+    }
 }
 
 /**
@@ -233,7 +252,7 @@ class Matrix extends Array {
     }
 
     /**
-     * Returns the sum value of this matrix minus(-) the argument matrix.
+     * Returns the remaining value of this matrix minus(-) the argument matrix.
      * @param {Matrix} subtraction_matrix Matrix value to be subtracted.
      * @returns {Matrix} = `this` - `subtraction_matrix`
      */
@@ -242,6 +261,27 @@ class Matrix extends Array {
             throw `Matrix subtraction argument type miss-match. Argument must be of type '${this.constructor.name}'.`;
         }
         return this.copy().map((vector, vector_index) => vector.minus(subtraction_matrix[vector_index]));
+    }
+
+    /**
+     * Returns the product value of this matrix times(*) the argument matrix.
+     * @param {Matrix} multiplication_matrix Matrix value to be multiplied.
+     * @returns {Matrix} = `this` * `multiplication_matrix`
+     */
+    times(multiplication_matrix) {
+        if (this[0].length !== multiplication_matrix.length) {
+            throw `Matrix multiplication argument value miss-match. Argument row count(${multiplication_matrix.length})
+             must match this matrix column count(${this[0].length}).`;
+        }
+        return this.copy().map(row_vector => {
+            let product_vector = Reflect.construct(multiplication_matrix[0].constructor, []);
+            for (let column_index = 0; column_index < multiplication_matrix[0].length; column_index++) {
+                multiplication_matrix.forEach((column_vector, vector_index) => {
+                    product_vector[column_index] += row_vector[vector_index] * column_vector[column_index]
+                })
+            }
+            return product_vector;
+        });
     }
 }
 
@@ -551,8 +591,6 @@ function subtract( u, v )
         return result;
     }
 }
-
-//----------------------------------------------------------------------------
 
 function mult( u, v )
 {
