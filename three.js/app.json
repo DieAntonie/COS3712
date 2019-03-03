@@ -13,17 +13,17 @@
 			"generator": "Object3D.toJSON"
 		},
 		"object": {
-			"uuid": "E4F16259-25E5-4FBC-B31E-767A6A8EDA29",
+			"uuid": "2F823E5C-6096-4E72-961B-D20C671A85BC",
 			"type": "PerspectiveCamera",
 			"name": "Camera",
 			"layers": 1,
-			"matrix": [-0.932294,0,0.361701,0,0.233234,0.76433,0.601168,0,-0.276459,0.644825,-0.712579,0,-65.533255,153.244665,-133.085035,1],
+			"matrix": [0.148741,0,0.988876,0,0.030448,0.999526,-0.00458,0,-0.988406,0.03079,0.148671,0,-12.158451,5.378755,11.82881,1],
 			"fov": 50,
 			"zoom": 1,
 			"near": 0.01,
 			"far": 1000,
 			"focus": 10,
-			"aspect": 1.716102,
+			"aspect": 2.334294,
 			"filmGauge": 35,
 			"filmOffset": 0
 		}
@@ -105,22 +105,6 @@
 				"segments": 12,
 				"phiStart": 0,
 				"phiLength": 6.283185
-			},
-			{
-				"uuid": "F9E6EDC8-E486-48FD-8266-8BB5328ECD32",
-				"type": "PlaneBufferGeometry",
-				"width": 20,
-				"height": 20,
-				"widthSegments": 1,
-				"heightSegments": 1
-			},
-			{
-				"uuid": "E3A2A01F-3D16-4601-AB83-9A722467A48F",
-				"type": "PlaneBufferGeometry",
-				"width": 10,
-				"height": 10,
-				"widthSegments": 1,
-				"heightSegments": 1
 			},
 			{
 				"uuid": "E0AA4FB9-3293-46DA-BEAF-F7B41E0B7470",
@@ -238,30 +222,6 @@
 				"depthWrite": true
 			},
 			{
-				"uuid": "003B20B1-B53C-4835-83B1-2B0485F0DA2C",
-				"type": "MeshStandardMaterial",
-				"color": 16777215,
-				"roughness": 0.5,
-				"metalness": 0.5,
-				"emissive": 14548991,
-				"depthFunc": 3,
-				"depthTest": true,
-				"depthWrite": true
-			},
-			{
-				"uuid": "8760A197-929A-4343-A11F-7EE5453D8DEA",
-				"type": "MeshStandardMaterial",
-				"color": 16777215,
-				"roughness": 0.5,
-				"metalness": 1,
-				"emissive": 8446905,
-				"opacity": 0.3,
-				"transparent": true,
-				"depthFunc": 3,
-				"depthTest": true,
-				"depthWrite": true
-			},
-			{
 				"uuid": "95DBC942-DCD9-4D70-8A00-36037A0A579F",
 				"type": "MeshStandardMaterial",
 				"color": 16777215,
@@ -325,10 +285,10 @@
 							"type": "PerspectiveCamera",
 							"name": "PerspectiveCamera",
 							"layers": 1,
-							"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,5,10,1],
+							"matrix": [1,0,0,0,0,0.984808,-0.173648,0,0,0.173648,0.984808,0,0,5,10,1],
 							"fov": 50,
 							"zoom": 1,
-							"near": 1,
+							"near": 0.5,
 							"far": 10000,
 							"focus": 10,
 							"aspect": 1,
@@ -439,24 +399,6 @@
 					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
 					"children": [
 						{
-							"uuid": "87E75CA9-581B-4539-B0D7-83D5051EF68E",
-							"type": "Mesh",
-							"name": "Bottom",
-							"layers": 1,
-							"matrix": [30,0,0,0,0,0,-30,0,0,1,0,0,0,-0.5,0,1],
-							"geometry": "F9E6EDC8-E486-48FD-8266-8BB5328ECD32",
-							"material": "003B20B1-B53C-4835-83B1-2B0485F0DA2C"
-						},
-						{
-							"uuid": "AA0B3ED8-A99A-4CC8-B515-6128739602DD",
-							"type": "Mesh",
-							"name": "Water",
-							"layers": 1,
-							"matrix": [30,0,0,0,0,0,-30,0,0,1,0,0,0,0,0,1],
-							"geometry": "E3A2A01F-3D16-4601-AB83-9A722467A48F",
-							"material": "8760A197-929A-4343-A11F-7EE5453D8DEA"
-						},
-						{
 							"uuid": "E98195D6-6461-4AFC-ADF8-C5188AB84F55",
 							"type": "Mesh",
 							"name": "Ground",
@@ -550,7 +492,7 @@
 		"3B20008D-55FD-4298-94E1-28B3ED9F9CCD": [
 			{
 				"name": "Orbit",
-				"source": "function update( event ) {\n\tthis.rotation.y += player.ROTATION_SPEED;\n}"
+				"source": "function update( event ) {\n\tthis.rotation.y += player.rotation.active ? (player.rotation.direction ? player.rotation.speed : (player.rotation.speed * -1)): 0;\n}"
 			}]
 	}
 }

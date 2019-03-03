@@ -8,6 +8,7 @@ var APP = {
 
 		var loader = new THREE.ObjectLoader();
 		var camera, scene, renderer;
+		var water, light;
 
 		var events = {};
 
@@ -16,10 +17,32 @@ var APP = {
 
 		this.width = 500;
 		this.height = 500;
-		this.ROTATION_SPEED = 0.001;
+		this.rotation = {
+			speed: 0.001,
+			active: false,
+			direction: true
+		};
+
+		this.rotation_button = document.getElementById("RotationStartStop");
+		this.rotation_button.onclick = () => this.rotation.active = !(this.rotation.active);
+
+		this.direction_button = document.getElementById("RotationRedirect");
+		this.direction_button.onclick = () => this.rotation.direction = !(this.rotation.direction);
 
 		this.speed_slider = document.getElementById("rotationSpeed");
-		this.speed_slider.onchange = (event) => this.ROTATION_SPEED = (event.target.valueAsNumber * 0.001);
+		this.speed_slider.onchange = (event) => this.rotation.speed = (event.target.valueAsNumber * 0.0002);
+
+		this.speed_slider.value = 50;
+
+		this.zoom_slider = document.getElementById("zoomDepth");
+		this.zoom_slider.onchange = (event) => {
+			console.log(scene);
+			camera.rotation.x = (event.target.valueAsNumber * -0.004);
+			camera.position.z = (0.5 + event.target.valueAsNumber * 0.2);
+			camera.position.y = (0.5 + (event.target.valueAsNumber * 0.1));
+		};
+
+		this.zoom_slider.value = 50;
 
 		this.load = function ( json ) {
 
@@ -102,6 +125,73 @@ var APP = {
 				}
 
 			}
+			
+			light = new THREE.Vector3(0,1,0); //new THREE.DirectionalLight( 0xffffff, 0.8 );
+			//  scene.add( light );
+
+			// Water
+
+			var waterGeometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
+
+			water = new THREE.Water(
+				waterGeometry,
+				{
+					textureWidth: 512,
+					textureHeight: 512,
+					waterNormals: new THREE.TextureLoader().load( 'waternormals.jpg', function ( texture ) {
+
+						texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+					} ),
+					alpha: 1.0,
+					sunDirection: light,//light.position.clone().normalize(),
+					sunColor: 0xffffff,
+					waterColor: 0x001e0f,
+					distortionScale: 3.7,
+					fog: scene.fog !== undefined
+				}
+			);
+
+			water.rotation.z = - Math.PI / 2;
+
+			water.rotation.x = - Math.PI / 2;
+
+			scene.add( water );
+
+			// Skybox
+
+			var sky = new THREE.Sky();
+			sky.scale.setScalar( 10000 );
+			scene.add( sky );
+
+			var uniforms = sky.material.uniforms;
+
+			uniforms[ "turbidity" ].value = 10;
+			uniforms[ "rayleigh" ].value = 2;
+			uniforms[ "luminance" ].value = 1;
+			uniforms[ "mieCoefficient" ].value = 0.005;
+			uniforms[ "mieDirectionalG" ].value = 0.8;
+
+			var parameters = {
+				distance: 400,
+				inclination: 0,
+				azimuth: 0.205
+			};
+
+			function updateSun() {
+
+				// var theta = Math.PI * ( parameters.inclination - 0.5 );
+				// var phi = 2 * Math.PI * ( parameters.azimuth - 0.5 );
+
+				// light.position.x = parameters.distance * Math.cos( phi );
+				// light.position.y = parameters.distance * Math.sin( phi ) * Math.sin( theta );
+				// light.position.z = parameters.distance * Math.sin( phi ) * Math.cos( theta );
+
+				sky.material.uniforms[ "sunPosition" ].value = light // .position.copy( light.position );
+				water.material.uniforms[ "sunDirection" ].value.copy( light /*.position*/ ).normalize();
+			}
+
+			updateSun();
 
 			dispatch( events.init, arguments );
 
@@ -166,6 +256,7 @@ var APP = {
 			try {
 
 				dispatch( events.update, { time: time, delta: time - prevTime } );
+				water.material.uniforms[ "time" ].value += 0.075 / 60.0;
 
 			} catch ( e ) {
 
@@ -193,7 +284,6 @@ var APP = {
 			document.addEventListener( 'touchmove', onDocumentTouchMove );
 
 			dispatch( events.start, arguments );
-
 			renderer.setAnimationLoop( animate );
 
 		};
