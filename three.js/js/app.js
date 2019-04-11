@@ -29,12 +29,12 @@ var APP = {
 		this.direction_button = document.getElementById("RotationRedirect");
 		this.direction_button.onclick = () => this.rotation.direction = !(this.rotation.direction);
 
-		this.speed_slider = document.getElementById("rotationSpeed");
+		this.speed_slider = document.getElementById("RotationSpeed");
 		this.speed_slider.onchange = (event) => this.rotation.speed = (event.target.valueAsNumber * 0.0002);
 
 		this.speed_slider.value = 50;
 
-		this.zoom_slider = document.getElementById("zoomDepth");
+		this.zoom_slider = document.getElementById("ZoomDepth");
 		this.zoom_slider.onchange = (event) => {
 			console.log(scene);
 			camera.rotation.x = (event.target.valueAsNumber * -0.004);
