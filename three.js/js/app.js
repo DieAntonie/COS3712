@@ -36,7 +36,7 @@ var APP = {
 
 		this.zoom_slider = document.getElementById("ZoomDepth");
 		this.zoom_slider.onchange = (event) => {
-			console.log(scene);
+			// console.log(scene);
 			camera.rotation.x = (event.target.valueAsNumber * -0.004);
 			camera.position.z = (0.5 + event.target.valueAsNumber * 0.2);
 			camera.position.y = (0.5 + (event.target.valueAsNumber * 0.1));
