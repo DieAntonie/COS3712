@@ -798,8 +798,8 @@
 									"layers": 1,
 									"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0.5,2,1],
 									"color": 16744451,
-									"intensity": 1,
-									"distance": 10,
+									"intensity": 0,
+									"distance": 20,
 									"decay": 2,
 									"shadow": {
 										"radius": 50,
@@ -840,7 +840,12 @@
 							"material": "DE61F52B-2F9B-478F-A7EE-B753C9BCB4CA"
 						}]
 				}],
-			"background": 16776940
+			"background": 16776940,
+			"fog": {
+				"type": "FogExp2",
+				"color": 0,
+				"density": 0
+			}
 		}
 	},
 	"scripts": {

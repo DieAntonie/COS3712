@@ -8,7 +8,8 @@ var APP = {
 
 		var loader = new THREE.ObjectLoader();
 		var camera, scene, renderer;
-		var water, light;
+		var water, light, sun, flame;
+		var flame_cycle = 0, flame_val = 0;
 
 		var events = {};
 
@@ -28,6 +29,14 @@ var APP = {
 
 		this.direction_button = document.getElementById("RotationRedirect");
 		this.direction_button.onclick = () => this.rotation.direction = !(this.rotation.direction);
+
+		this.time_button = document.getElementById("ChangeTime");
+		this.time_button.onclick = () => {
+			console.log(scene);
+			sun.visible = !sun.visible;
+			light.y = sun.visible ? 1 : 0;
+			scene.fog.density = sun.visible ? 0 : 0.025;
+		};
 
 		this.speed_slider = document.getElementById("RotationSpeed");
 		this.speed_slider.onchange = (event) => this.rotation.speed = (event.target.valueAsNumber * 0.0002);
@@ -163,6 +172,11 @@ var APP = {
 			var sky = new THREE.Sky();
 			sky.scale.setScalar( 10000 );
 			scene.add( sky );
+			
+			let env = scene.children.find(c => c.name === "Environment");
+			sun = env.children.find(c => c.name === "Sun");
+			let fire = env.children.find(c => c.name === "Fire");
+			flame = fire.children.find(c => c.name === "Flame_light");
 
 			var uniforms = sky.material.uniforms;
 
@@ -252,16 +266,78 @@ var APP = {
 		function animate() {
 
 			time = performance.now();
+			let flame_lick = function() {
+				let flame_intensity = () => {
+					let val = Math.random()/50;
+					switch (flame_cycle) {
+					case 0: {
+						if (flame_val > 1.5) {
+							flame_cycle++;
+						} else {
+							return flame_val + val;
+						}
+						return flame_val;
+					}
+					case 1: {
+						if (flame_val < 1) {
+							flame_cycle++;
+						} else {
+							return flame_val - val;
+						}
+						return flame_val;
+					}
+					case 2: {
+						if (flame_val > 2) {
+							flame_cycle++;
+						} else {
+							return flame_val + val;
+						}
+						return flame_val;
+					}
+					case 3: {
+						if (flame_val < 1) {
+							flame_cycle++;
+						} else {
+							return flame_val - val;
+						}
+						return flame_val;
+					}
+					case 4: {
+						if (flame_val > 1.5) {
+							flame_cycle++;
+						} else {
+							return flame_val + val;
+						}
+						return flame_val;
+					}
+					case 5: {
+						if (flame_val < 0.5) {
+							flame_cycle = 0;
+						} else {
+							return flame_val - val;
+						}
+						return flame_val;
+					}
+					default: {
+						return flame_val;
+					}
+				}
+				};
+				flame_val = sun.visible ? 0 : flame_intensity();
+				flame.intensity = sun.visible ? 0 : flame_val + Math.random()/5;
+				if (!sun.visible) {
+					scene.fog.density = 0.025 + (0.025/flame_val)/5;
+					flame.distance = flame_val * 10;
+				}
+			}
 
 			try {
 
 				dispatch( events.update, { time: time, delta: time - prevTime } );
 				water.material.uniforms[ "time" ].value += 0.075 / 60.0;
-
+				flame_lick();
 			} catch ( e ) {
-
 				console.error( ( e.message || e ), ( e.stack || "" ) );
-
 			}
 
 			renderer.render( scene, camera );
