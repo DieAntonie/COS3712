@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#101312">
+	<title>Fieldnotes | Interactive Graphics Lab</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="app.js" defer></script>
+</head>
+<body>
+	<main class="workspace">
+		<aside class="rail" aria-label="Graphics topics">
+			<a class="brand" href="#scene" aria-label="Fieldnotes home"><span class="brand-mark">F</span><span>FIELDNOTES</span></a>
+			<p class="rail-label">THE LAB</p>
+			<nav class="topic-nav" aria-label="Choose a graphics topic">
+				<button class="topic-button is-active" data-topic="transformations"><span class="topic-index">01</span><span>Transformations</span></button>
+				<button class="topic-button" data-topic="cameras"><span class="topic-index">02</span><span>Cameras</span></button>
+				<button class="topic-button" data-topic="lighting"><span class="topic-index">03</span><span>Lighting &amp; materials</span></button>
+				<button class="topic-button" data-topic="particles"><span class="topic-index">04</span><span>Particles</span></button>
+				<button class="topic-button" data-topic="shaders"><span class="topic-index">05</span><span>Shaders</span></button>
+				<button class="topic-button" data-topic="pipeline"><span class="topic-index">06</span><span>Graphics pipeline</span></button>
+			</nav>
+			<div class="rail-note"><span class="live-dot"></span><span>WEBGL LAB<br><strong>SESSION 001</strong></span></div>
+		</aside>
+
+		<section class="main-column" id="scene">
+			<header class="topbar">
+				<div><p class="eyebrow">COMPUTER GRAPHICS / FIELD STUDY 01</p><h1>Make it <em>move.</em></h1></div>
+				<div class="topbar-meta"><span class="status"><i></i> LIVE SCENE</span><span class="topbar-divider"></span><span>WEBGL <b>01</b></span></div>
+			</header>
+
+			<div class="stage-wrap">
+				<div class="stage-heading"><div><span class="stage-kicker">CURRENT STUDY</span><h2 id="scene-title">Transformations</h2></div><button class="reset-button" id="reset-scene" type="button" title="Reset scene">RESET <span aria-hidden="true">↺</span></button></div>
+				<div class="stage" id="stage">
+					<canvas id="gl-canvas" aria-label="Interactive WebGL scene"></canvas>
+					<div class="stage-overlay"><span class="axis-key"><i class="axis-x"></i>X</span><span class="axis-key"><i class="axis-y"></i>Y</span><span class="axis-key"><i class="axis-z"></i>Z</span></div>
+					<div class="drag-hint"><span aria-hidden="true">+</span> DRAG TO ORBIT</div>
+					<div id="webgl-error" class="webgl-error" hidden>Your browser could not initialize WebGL. Try enabling hardware acceleration.</div>
+					<div class="stage-readout"><span>OBJECT</span><strong>SPHERE / 1.0</strong></div>
+				</div>
+				<div class="stage-footer"><span><i class="live-dot"></i> RENDERING IN REAL TIME</span><span id="frame-readout">60 FPS <b>·</b> TRIANGLES <b id="triangle-count">0</b></span></div>
+			</div>
+
+			<section class="pipeline" aria-label="Graphics pipeline">
+				<div class="pipeline-head"><div><p class="eyebrow">UNDER THE SURFACE</p><h2>Graphics pipeline</h2></div><p>Each stage transforms the same scene data.</p></div>
+				<div class="pipeline-track">
+					<div class="pipeline-step is-current" data-pipe="vertex"><span class="pipe-number">01</span><strong>Vertex</strong><small>Position + normal</small></div><span class="pipe-arrow">/</span>
+					<div class="pipeline-step" data-pipe="primitive"><span class="pipe-number">02</span><strong>Primitive</strong><small>Triangle assembly</small></div><span class="pipe-arrow">/</span>
+					<div class="pipeline-step" data-pipe="raster"><span class="pipe-number">03</span><strong>Rasterize</strong><small>Fragments generated</small></div><span class="pipe-arrow">/</span>
+					<div class="pipeline-step" data-pipe="fragment"><span class="pipe-number">04</span><strong>Fragment</strong><small>Color + depth</small></div>
+				</div>
+			</section>
+			<footer class="page-footer"><span>AN INTERACTIVE GRAPHICS SANDBOX</span><span>BUILT FOR CURIOSITY <b>—</b> 2026</span></footer>
+		</section>
+
+		<aside class="inspector" aria-label="Scene controls">
+			<div class="inspector-head"><span class="eyebrow">SCENE CONTROLS</span><span class="control-count">06 / 06</span></div>
+			<div class="topic-copy"><span class="topic-tag" id="topic-tag">01 / TRANSFORM</span><p id="topic-description">Change an object's position, orientation, and scale in 3D space.</p></div>
+			<div id="controls" class="controls"></div>
+			<div class="inspector-bottom"><div class="swatch-row"><span>MATERIAL</span><button class="swatch is-selected" data-color="#ec795e" aria-label="Coral material"></button><button class="swatch" data-color="#6eb5a4" aria-label="Sea glass material"></button><button class="swatch" data-color="#e4ba68" aria-label="Ochre material"></button><button class="swatch" data-color="#a5a8a0" aria-label="Stone material"></button></div><p>Changes are rendered instantly in the scene.</p></div>
+		</aside>
+	</main>
+</body>
+</html>
